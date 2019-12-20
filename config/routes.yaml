@@ -1,0 +1,42 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+#controllers:
+#  resource: '../src/Controller/'
+#  type:     annotation
+
+#index:
+#  path: /index/{page?}
+#  # the controller value has the format 'controller_class::method_name'
+#  controller: App\Controller\MainController::index
+#  methods:    GET|HEAD
+#  requirements:
+#    page: '\d+'
+
+blog_list:
+  path: /
+  controller: App\Controller\BlogController::list
+  methods:    GET|HEAD
+#  requirements:
+#    page: '\d+'
+
+blog_list_index:
+  path: /index
+  controller: App\Controller\BlogController::list
+  methods:    GET|HEAD
+#  requirements:
+#    page: '\d+'
+
+
+blog_show:
+  path:     /blog/show/{id}
+  controller: App\Controller\BlogController::show
+
+test_index:
+  path: /test/{number?}
+  # the controller value has the format 'controller_class::method_name'
+  controller: App\Controller\TestController::index
+  methods:    GET|HEAD
+  requirements:
+    number: '\d+'
