@@ -63,6 +63,14 @@ class Post
         $this->postTags = new ArrayCollection();
     }
 
+    /**
+     * @return ArrayCollection
+     */
+    public function getPostTags()
+    {
+        return $this->postTags;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -116,15 +124,8 @@ class Post
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->user_id;
-    }
-
-    public function setUserId(?User $user_id): self
-    {
-        $this->user_id = $user_id;
-
-        return $this;
+        return $this->user;
     }
 }

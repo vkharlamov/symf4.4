@@ -5,9 +5,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/BlogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BlogController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20191220150059.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/blog/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog/list.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +180,7 @@
       <updated>1576755650369</updated>
       <workItem from="1576755651691" duration="12765000" />
       <workItem from="1576834170173" duration="14571000" />
-      <workItem from="1577089891810" duration="16937000" />
+      <workItem from="1577089891810" duration="21281000" />
     </task>
     <task id="LOCAL-00001" summary="Init. db skeleton">
       <created>1576858692923</created>
@@ -191,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576858692923</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Init. fix db skeleton">
+      <created>1577114467504</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1577114467504</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +204,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Init. db skeleton" />
-    <option name="LAST_COMMIT_MESSAGE" value="Init. db skeleton" />
+    <MESSAGE value="Init. fix db skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="Init. fix db skeleton" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2531" y="357" width="754" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576760961322">
@@ -210,13 +216,15 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2663" y="414" width="490" height="277" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576761002551" />
-    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2" timestamp="1576858692808">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="558" y="172" width="860" height="806" key="CommitChangelistDialog2" timestamp="1577114467390">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="558" y="172" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577114467390" />
     <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576858692808" />
-    <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog" timestamp="1576854077826">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="167" y="149" width="1653" height="855" key="DiffContextDialog" timestamp="1577114452010">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="167" y="149" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577114452010" />
     <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576854077826" />
     <state x="776" y="329" width="424" height="484" key="FileChooserDialogImpl" timestamp="1577104994889">
       <screen x="0" y="27" width="1920" height="1053" />

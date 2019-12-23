@@ -14,8 +14,7 @@ class BlogController extends AbstractController
         $posts = $this->getDoctrine()
             ->getRepository(Post::class)
             ->findAll();
-
-
+//dd($posts);
         return $this->render('blog/list.html.twig', ['posts' => $posts]);
     }
 

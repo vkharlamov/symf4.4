@@ -7,9 +7,17 @@
     <ul>
         {% for post in posts %}
             <li>
+                <b>{{ post.id }}</b>
                 <a href="{{ path('blog_show', { id: post.id }) }}">
                     {{ post.title }}
                 </a>
+                <div>
+                    {{ post.content }}
+                </div>
+                {% for tag in post.postTags  %}
+                    <em>{{ tag.name }}</em>
+                {% endfor %}
+                <div>author {{ post.user.name}} {{ post.user.lastName }}</div>
             </li>
         {% endfor %}
     </ul>
