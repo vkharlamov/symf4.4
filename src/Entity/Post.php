@@ -10,6 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
+    public const STATUS_DRAFT = 1;
+    public const STATUS_PUBLISHED = 2;
+    public const STATUS_DECLINED = 3;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -23,9 +27,14 @@ class Post
     private $title;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $created_at;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $updated_at;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -33,15 +42,15 @@ class Post
     private $content;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default":1})
      */
-    private $status;
+    private $status = self::STATUS_DRAFT;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user_id;
+    private $user;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")

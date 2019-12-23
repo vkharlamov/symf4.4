@@ -11,6 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User
 {
+    public const IS_INACTIVE = 0;
+    public const IS_ACTIVE = 1;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -34,9 +37,9 @@ class User
     private $email;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default":1})
      */
-    private $status;
+    private $isActive = self::IS_ACTIVE;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -52,6 +55,21 @@ class User
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user_id", orphanRemoval=true)
      */
     private $posts;
+
+    /**
+     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $updated_at;
+
+    /**
+     * @ORM\Column(name="rate", type="integer", options={"default":0})
+     */
+    private $rate;
 
     public function __construct()
     {
@@ -99,14 +117,14 @@ class User
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getIsActive(): ?int
     {
-        return $this->status;
+        return $this->isActive;
     }
 
-    public function setStatus(int $status): self
+    public function setIsActive(int $isActive): self
     {
-        $this->status = $status;
+        $this->isActive = $isActive;
 
         return $this;
     }
@@ -135,6 +153,19 @@ class User
         return $this;
     }
 
+    public function getRate(): ?int
+    {
+        return $this->rate;
+    }
+
+    public function setRate(int $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+
     /**
      * @return Collection|Post[]
      */
@@ -162,6 +193,30 @@ class User
                 $post->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

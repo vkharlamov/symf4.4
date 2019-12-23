@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="44fc1db6-7880-4759-a8ed-d9e99528435a" name="Default Changelist" comment="" />
+    <list default="true" id="44fc1db6-7880-4759-a8ed-d9e99528435a" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BlogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BlogController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Product.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Migrations/Version20191220150059.php" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,12 +181,25 @@
       <option name="presentableId" value="Default" />
       <updated>1576755650369</updated>
       <workItem from="1576755651691" duration="12765000" />
-      <workItem from="1576834170173" duration="13105000" />
+      <workItem from="1576834170173" duration="14571000" />
+      <workItem from="1577089891810" duration="16937000" />
     </task>
+    <task id="LOCAL-00001" summary="Init. db skeleton">
+      <created>1576858692923</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1576858692923</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Init. db skeleton" />
+    <option name="LAST_COMMIT_MESSAGE" value="Init. db skeleton" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2531" y="357" width="754" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576760961322">
@@ -190,21 +210,30 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2663" y="414" width="490" height="277" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576761002551" />
-    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2" timestamp="1576858607026">
+    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2" timestamp="1576858692808">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
-    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576858607026" />
+    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576858692808" />
     <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog" timestamp="1576854077826">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576854077826" />
-    <state x="2696" y="310" width="424" height="484" key="FileChooserDialogImpl" timestamp="1576854077189">
-      <screen x="1920" y="0" width="1920" height="1080" />
+    <state x="776" y="329" width="424" height="484" key="FileChooserDialogImpl" timestamp="1577104994889">
+      <screen x="0" y="27" width="1920" height="1053" />
     </state>
+    <state x="776" y="329" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577104994889" />
     <state x="2696" y="310" width="424" height="484" key="FileChooserDialogImpl/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576854077189" />
     <state x="2636" y="366" width="545" height="373" key="NewPhpClassDialog" timestamp="1576768848711">
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2636" y="366" width="545" height="373" key="NewPhpClassDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576768848711" />
+    <state x="576" y="290" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577113122028">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="576" y="290" width="800" height="528" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577113122028" />
+    <state x="716" y="364" width="1161" height="526" key="find.popup" timestamp="1577105099824">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="716" y="364" width="1161" height="526" key="find.popup/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577105099824" />
   </component>
 </project>
