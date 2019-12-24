@@ -1,0 +1,7 @@
+App\Entity\Post:
+  type: entity
+  # ...
+  oneToMany:
+    comments:
+      targetEntity: App\Entity\Comment
+      mappedBy: post

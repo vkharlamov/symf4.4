@@ -1,0 +1,8 @@
+App\Entity\Comment:
+  type: entity
+  manyToOne:
+    post:
+      targetEntity: App\Entity\Post
+      inversedBy: comments
+      joinColumn:
+        nullable: false

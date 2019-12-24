@@ -20,17 +20,17 @@ class BlogController extends AbstractController
 
     public function show($id)
     {
-        return __METHOD__;
-//        $post = $this->getDoctrine()
-//            ->getRepository(Post::class)
-//            ->find($id);
-//
-//        if (!$post) {
-//            // cause the 404 page not found to be displayed
-//            throw $this->createNotFoundException();
-//        }
-//
-//        return $this->render('blog/show.html.twig', ['post' => $post]);
+//        return __METHOD__;
+        $post = $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+//        dd($post->getComments());
+
+        if (!$post) {
+            // cause the 404 page not found to be displayed
+            throw $this->createNotFoundException();
+        }
+        return $this->render('blog/show.html.twig', ['post' => $post]);
     }
 }
 
