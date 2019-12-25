@@ -1,32 +1,16 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-
-#controllers:
-#  resource: '../src/Controller/'
-#  type:     annotation
-
-#index:
-#  path: /index/{page?}
-#  # the controller value has the format 'controller_class::method_name'
-#  controller: App\Controller\MainController::index
-#  methods:    GET|HEAD
-#  requirements:
-#    page: '\d+'
-
 blog_list:
-  path: /
+  path: /{page<\d+>?1}
   controller: App\Controller\BlogController::list
   methods:    GET|HEAD
-#  requirements:
-#    page: '\d+'
 
 blog_list_index:
-  path: /index
+  path: /index/{page}
   controller: App\Controller\BlogController::list
   methods:    GET|HEAD
-#  requirements:
-#    page: '\d+'
+  defaults:
+    page: 1
+  requirements:
+    page: '\d+'
 
 blog_show:
   path:     /blog/show/{id}

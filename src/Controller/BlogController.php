@@ -1,30 +1,32 @@
 <?php
 
-// src/Controller/BlogController.php
 namespace App\Controller;
 
-//use App\Entity\Post;
 use App\Entity\Post;
+use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\PostRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
-    public function list()
+    public function list(PostRepository $repository, PaginatorInterface $paginator, $page)
     {
-        $posts = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findAll();
-//dd($posts);
-        return $this->render('blog/list.html.twig', ['posts' => $posts]);
+        $pagination = $paginator->paginate(
+            $repository->findAll(),
+            $page,
+            1
+        );
+
+        return $this->render('blog/list.html.twig', [
+            'pagination' => $pagination
+        ]);
     }
 
     public function show($id)
     {
-//        return __METHOD__;
         $post = $this->getDoctrine()
             ->getRepository(Post::class)
             ->find($id);
-//        dd($post->getComments());
 
         if (!$post) {
             // cause the 404 page not found to be displayed
@@ -33,4 +35,3 @@ class BlogController extends AbstractController
         return $this->render('blog/show.html.twig', ['post' => $post]);
     }
 }
-

@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,6 +18,16 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+
+    /**
+     * Get post list
+     */
+//    public function findAll() :?Post
+//    {
+//        return $this->getDoctrine()
+//            ->getRepository(Post::class)
+//            ->findAll();
+//    }
 
     // /**
     //  * @return Post[] Returns an array of Post objects

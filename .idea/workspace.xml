@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="44fc1db6-7880-4759-a8ed-d9e99528435a" name="Default Changelist" comment="Show List of Posts">
-      <change afterPath="$PROJECT_DIR$/src/Resources/config/doctrine/comment.orm.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Resources/config/doctrine/post.orm.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/blog/show.html.twig" afterDir="false" />
+    <list default="true" id="44fc1db6-7880-4759-a8ed-d9e99528435a" name="Default Changelist" comment="Add Comment entity. Show post">
+      <change afterPath="$PROJECT_DIR$/config/packages/knp_paginator.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/symf.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/symf.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/bundles.php" beforeDir="false" afterPath="$PROJECT_DIR$/config/bundles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/BlogController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BlogController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PostRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/blog/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/blog/list.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,6 +142,8 @@
       <path value="$PROJECT_DIR$/vendor/symfony/intl" />
       <path value="$PROJECT_DIR$/vendor/symfony/debug" />
       <path value="$PROJECT_DIR$/vendor/symfony/polyfill-php72" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-paginator-bundle" />
+      <path value="$PROJECT_DIR$/vendor/knplabs/knp-components" />
     </include_path>
   </component>
   <component name="ProjectId" id="1VCSb04Ynw78ABk4WNr9ArulCu5" />
@@ -187,7 +193,8 @@
       <workItem from="1576755651691" duration="12765000" />
       <workItem from="1576834170173" duration="14571000" />
       <workItem from="1577089891810" duration="22102000" />
-      <workItem from="1577175894717" duration="18280000" />
+      <workItem from="1577175894717" duration="18756000" />
+      <workItem from="1577263122644" duration="4828000" />
     </task>
     <task id="LOCAL-00001" summary="Init. db skeleton">
       <created>1576858692923</created>
@@ -210,7 +217,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577119919068</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add Comment entity. Show post">
+      <created>1577208446593</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1577208446593</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,7 +235,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
@@ -231,7 +247,8 @@
     <MESSAGE value="Init. db skeleton" />
     <MESSAGE value="Init. fix db skeleton" />
     <MESSAGE value="Show List of Posts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Show List of Posts" />
+    <MESSAGE value="Add Comment entity. Show post" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Comment entity. Show post" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2531" y="357" width="754" height="390" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1576760961322">
@@ -246,16 +263,16 @@
       <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="2663" y="414" width="490" height="277" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576761002551" />
-    <state x="558" y="2" width="1214" height="980" key="CommitChangelistDialog2" timestamp="1577182308329">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="2478" y="149" width="1214" height="980" key="CommitChangelistDialog2" timestamp="1577267953453">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="558" y="2" width="1214" height="980" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577182308329" />
-    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576858692808" />
-    <state x="118" y="39" width="1536" height="894" key="DiffContextDialog" timestamp="1577200760128">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="2478" y="149" width="860" height="806" key="CommitChangelistDialog2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1577267953453" />
+    <state x="2087" y="125" width="1536" height="894" key="DiffContextDialog" timestamp="1577267952973">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="118" y="39" width="1536" height="894" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577200760128" />
-    <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1576854077826" />
+    <state x="2087" y="125" width="1653" height="855" key="DiffContextDialog/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1577267952973" />
     <state x="776" y="329" width="424" height="484" key="FileChooserDialogImpl" timestamp="1577200681468">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -269,10 +286,11 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="898" y="350" key="SettingsEditor/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577120498812" />
-    <state x="576" y="290" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577120507621">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="2496" y="270" width="800" height="528" key="Vcs.Push.Dialog.v2" timestamp="1577208463047">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="576" y="290" width="800" height="528" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577120507621" />
+    <state x="2496" y="270" key="Vcs.Push.Dialog.v2/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1577208463047" />
     <state x="197" y="283" width="1623" height="637" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1577198396438">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
@@ -281,10 +299,15 @@
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
     <state x="595" y="310" key="com.intellij.ide.util.TipDialog/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577175917498" />
-    <state x="716" y="364" width="1161" height="526" key="find.popup" timestamp="1577200109067">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="2541" y="187" width="1161" height="540" key="find.popup" timestamp="1577267031706">
+      <screen x="1920" y="0" width="1920" height="1080" />
     </state>
     <state x="716" y="364" width="1161" height="526" key="find.popup/1920.0.1920.1080/0.27.1920.1053@0.27.1920.1053" timestamp="1577200109067" />
+    <state x="2541" y="187" width="1161" height="540" key="find.popup/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1577267031706" />
+    <state x="2562" y="271" width="700" height="530" key="recent.locations.popup" timestamp="1577265043406">
+      <screen x="1920" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2562" y="271" width="700" height="530" key="recent.locations.popup/1920.0.1920.1080/0.27.1920.1053@1920.0.1920.1080" timestamp="1577265043406" />
     <state x="672" y="278" key="run.anything.popup" timestamp="1577199916245">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
