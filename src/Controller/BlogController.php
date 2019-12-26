@@ -32,6 +32,7 @@ class BlogController extends AbstractController
             // cause the 404 page not found to be displayed
             throw $this->createNotFoundException();
         }
+
         return $this->render('blog/show.html.twig', ['post' => $post]);
     }
 }

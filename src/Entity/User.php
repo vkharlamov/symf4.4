@@ -76,10 +76,16 @@ class User
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Vote", mappedBy="user", orphanRemoval=true)
+     */
+    private $votes;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +258,37 @@ class User
             // set the owning side to null (unless already changed)
             if ($comment->getUser() === $this) {
                 $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Vote[]
+     */
+    public function getVotes(): Collection
+    {
+        return $this->votes;
+    }
+
+    public function addVote(Vote $vote): self
+    {
+        if (!$this->votes->contains($vote)) {
+            $this->votes[] = $vote;
+            $vote->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVote(Vote $vote): self
+    {
+        if ($this->votes->contains($vote)) {
+            $this->votes->removeElement($vote);
+            // set the owning side to null (unless already changed)
+            if ($vote->getUser() === $this) {
+                $vote->setUser(null);
             }
         }
 
