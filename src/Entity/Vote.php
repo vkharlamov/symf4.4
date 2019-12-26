@@ -3,10 +3,24 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VoteRepository")
+ *
  */
+/**
+ * @ORM\Entity
+ * @ORM\Table(
+ *      name="vote",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"post_id", "user_id"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"post","user"},
+ *      message="Vote for that post already exists in database."
+ * )
+ */
+
 class Vote
 {
     /**
@@ -22,12 +36,17 @@ class Vote
     private $post_id;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="integer")
      */
     private $vote;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     */
+    private $created_at;
+
+    /**
+     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updated_at;
 
@@ -60,7 +79,7 @@ class Vote
         return $this;
     }
 
-    public function getVote(): ?\DateTimeInterface
+    public function getVote(): ?int
     {
         return $this->vote;
     }
