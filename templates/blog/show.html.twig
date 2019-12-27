@@ -3,23 +3,32 @@
 {% block title %}List of Posts{% endblock %}
 
 {% block body %}
-    <h1>List of Posts</h1>
-    <div>
-        <p>
-            <b>{{ post.title }} #{{ post.id }}</b>
-        </p>
-        <div>author {{ post.user.name }} {{ post.user.lastName }}</div>
+    <div class="row">
+        <h1 xmlns="http://www.w3.org/1999/html">List of Posts</h1>
         <div>
+            <p>
+                <b>{{ post.title }} #{{ post.id }}</b>
+            </p>
             {% for tag in post.postTags %}
-                <em>{{ tag.name }}</em>
+                <h5><span class="label label-success">{{ tag.name }}</span></h5>
+            {% endfor %}
+            <div>
+                {{ post.content }}
+            </div>
+            <div>Author {{ post.user.name }} {{ post.user.lastName }}</div>
+            <p>Raiting :
+                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                {{ countVotes }}
+                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            </p>
+            <hr>
+            <h3>Comments</h3>
+            {% for comment in post.comments %}
+                <div>
+                    <em>Author: {{ comment.user.name }}</em>
+                    <p>{{ comment.text }}</p>
+                </div>
             {% endfor %}
         </div>
-        <div>
-            {{ post.content }}
-        </div>
-        {% for comment2 in post.comments %}
-            <em>{{ comment2.text }}</em>
-        {% endfor %}
-{#        {{ dump(post.comments) }}#}
     </div>
 {% endblock %}

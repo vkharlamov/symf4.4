@@ -3,14 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VoteRepository")
- *
- */
-/**
- * @ORM\Entity
  * @ORM\Table(
  *      name="vote",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"post_id", "user_id"})}
@@ -20,7 +19,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      message="Vote for that post already exists in database."
  * )
  */
-
 class Vote
 {
     /**
@@ -67,18 +65,6 @@ class Vote
         return $this->id;
     }
 
-    public function getPostId(): ?int
-    {
-        return $this->post_id;
-    }
-
-    public function setPostId(int $post_id): self
-    {
-        $this->post_id = $post_id;
-
-        return $this;
-    }
-
     public function getVote(): ?int
     {
         return $this->vote;
@@ -87,42 +73,6 @@ class Vote
     public function setVote(\DateTimeInterface $vote): self
     {
         $this->vote = $vote;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-
-        return $this;
-    }
-
-    public function getPost(): ?Post
-    {
-        return $this->post;
-    }
-
-    public function setPost(?Post $post): self
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }
