@@ -5,11 +5,11 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     public const IS_INACTIVE = 0;
     public const IS_ACTIVE = 1;
@@ -81,11 +81,72 @@ class User
      */
     private $votes;
 
+    /**
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->isActive = true;
+    }
+
+    public function getRoles(): array
+    {
+//        $roles = $this->roles->toArray();
+        $roles[] = 'ROLE_USER';
+        foreach($roles as $k => $v) {
+            $roles[$k] = $v->getRole();
+        }
+
+        return array_unique($roles);
+    }
+
+    public function getUsername()
+    {
+        return $this->getEmail();
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+    public function eraseCredentials()
+    {
+    }
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->psw_hash,
+            // see section on salt below
+            // $this->salt,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->psw_hash,
+            // see section on salt below
+            // $this->salt
+            ) = unserialize($serialized, array('allowed_classes' => false));
+    }
+
+    public function getPassword()
+    {
+        return $this->psw_hash;
     }
 
     public function getId(): ?int
@@ -145,6 +206,8 @@ class User
     {
         return $this->psw_hash;
     }
+
+
 
     public function setPswHash(?string $psw_hash): self
     {
