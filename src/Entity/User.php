@@ -42,16 +42,6 @@ class User implements UserInterface
     private $isActive = self::IS_ACTIVE;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $psw_hash;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $role;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", orphanRemoval=true)
      */
     private $posts;
@@ -87,6 +77,11 @@ class User implements UserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -99,18 +94,29 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-//        $roles = $this->roles->toArray();
+
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-        foreach($roles as $k => $v) {
-            $roles[$k] = $v->getRole();
-        }
 
         return array_unique($roles);
     }
 
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
     public function getUsername()
     {
-        return $this->getEmail();
+        return (string) $this->getEmail();
     }
 
     public function getSalt()
@@ -126,7 +132,7 @@ class User implements UserInterface
         return serialize(array(
             $this->id,
             $this->email,
-            $this->psw_hash,
+            $this->password,
             // see section on salt below
             // $this->salt,
         ));
@@ -138,7 +144,7 @@ class User implements UserInterface
         list (
             $this->id,
             $this->email,
-            $this->psw_hash,
+            $this->password,
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized, array('allowed_classes' => false));
@@ -146,7 +152,7 @@ class User implements UserInterface
 
     public function getPassword()
     {
-        return $this->psw_hash;
+        return $this->password;
     }
 
     public function getId(): ?int
@@ -202,32 +208,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPswHash(): ?string
-    {
-        return $this->psw_hash;
-    }
-
-
-
-    public function setPswHash(?string $psw_hash): self
-    {
-        $this->psw_hash = $psw_hash;
-
-        return $this;
-    }
-
-    public function getRole(): ?int
-    {
-        return $this->role;
-    }
-
-    public function setRole(int $role): self
-    {
-        $this->role = $role;
-
-        return $this;
-    }
-
     public function getRate(): ?int
     {
         return $this->rate;
@@ -239,7 +219,6 @@ class User implements UserInterface
 
         return $this;
     }
-
 
     /**
      * @return Collection|Post[]
@@ -354,6 +333,13 @@ class User implements UserInterface
                 $vote->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
 
         return $this;
     }
