@@ -337,10 +337,8 @@ class User implements UserInterface
         return $this;
     }
 
-    public function setPassword(string $password): self
+    public function getAvatarUrl(int $size = null): string
     {
-        $this->password = $password;
-
-        return $this;
+        return 'http://SomeUrl/';
     }
 }

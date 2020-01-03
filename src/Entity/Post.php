@@ -11,9 +11,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Post
 {
-    public const STATUS_DRAFT = 1;
-    public const STATUS_PUBLISHED = 2;
-    public const STATUS_DECLINED = 3;
+    public const STATUS_DRAFT_KEY = 1;
+    public const STATUS_PUBLISHED_KEY = 2;
+    public const STATUS_DECLINED_KEY = 3;
+
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_DECLINED = 'declined';
+
+    public const POST_PER_PAGE = 2;
 
     /**
      * @ORM\Id()
@@ -42,6 +48,7 @@ class Post
      */
     private $content;
 
+
     /**
      * @ORM\Column(type="integer", options={"default":1})
      */
@@ -49,9 +56,14 @@ class Post
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $user_id;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
@@ -128,9 +140,18 @@ class Post
         return $this;
     }
 
-    public function getStatus(): ?int
+    public function getStatus(): int
     {
         return $this->status;
+    }
+
+    public function getStatusName(): string
+    {
+        return [
+            self::STATUS_DRAFT_KEY => self::STATUS_DRAFT,
+            self::STATUS_DECLINED_KEY => self::STATUS_DECLINED,
+            self::STATUS_PUBLISHED_KEY => self::STATUS_PUBLISHED
+        ][$this->status];
     }
 
     public function setStatus(int $status): self
@@ -143,6 +164,28 @@ class Post
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    /**
+     * Set author
+     *
+     * @param User $author
+     *
+     * @return Post
+     */
+    public function setUser(User $user): Post
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
     }
 
     /**

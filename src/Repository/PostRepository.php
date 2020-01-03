@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -17,6 +19,46 @@ class PostRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function findAllPublishedOrderedByNewest()
+    {
+        return $this->addIsPublishedQueryBuilder()
+            ->leftJoin('a.tags', 't')
+            ->addSelect('t')
+            ->orderBy('a.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findUserPostOrderedByNewest(int $userId)
+    {
+        $query = $this->createQueryBuilder('p');
+
+        return $query
+            ->innerJoin('p.user','u')
+            ->addSelect('u')
+             //   Join::WITH,
+            //    $query->expr()->eq('p.user_id', 'u.id')
+            ->andWhere('p.user_id = :user_id')
+            ->setParameter('user_id', $userId)
+            ->orderBy('p.created_at', 'ASC')
+            ->setMaxResults(Post::POST_PER_PAGE)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public static function createNonDeletedCriteria(): Criteria
+    {
+        return Criteria::create()
+            ->andWhere(Criteria::expr()->eq('isDeleted', false))
+            ->orderBy(['createdAt' => 'DESC'])
+            ;
     }
 
     /**

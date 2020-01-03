@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manage Account{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+
+    <div class="row user-menu-container square">
+        <div class="col-md-12 user-details">
+            <div class="row spacepurplebg white">
+                <div class="col-md-2 no-pad">
+                    <div class="user-image">
+                        <img src="{{ app.user.avatarUrl }}" class="img-responsive thumbnail">
+                    </div>
+                </div>
+            </div>
+            <div class="row spacepurplebg white">
+                <div class="col-md-10 no-pad">
+                    Action | Some Action
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-10 no-pad">
+                    <div class="user-pad">
+                        <ul>
+                            <li><h5>Email {{ app.user.email }}</h5></li>
+                            <li><h5>Name {{ app.user.name }} {{ app.user.lastName }}</h5></li>
+                            <li><h5>Rating COUNT</h5></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <p> My publications </p>
+            <div class="row">
+                <div class="row overview">
+                    <div class="col-md-4 user-pad text-center">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Created</th>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for post in pagination %}
+                                {#                            {{ dump(post) }}#}
+                                <tr>
+                                    <td>
+                                        {{ post.createdAt|date('Y-m-d') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('blog_show', { id: post.id }) }}">
+                                            {{ post.title }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {{ post.statusName }}
+                                    </td>
+                                    <td>
+                                        {#Actions#}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        No one publication
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {{ knp_pagination_render(pagination) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
