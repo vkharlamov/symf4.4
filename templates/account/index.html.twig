@@ -13,13 +13,13 @@
             <div class="row spacepurplebg white">
                 <div class="col-md-2 no-pad">
                     <div class="user-image">
-                        <img src="{{ app.user.avatarUrl }}" class="img-responsive thumbnail">
+                        <img src="{{ app.user.avatarUrl(100) }}" class="img-responsive thumbnail">
                     </div>
                 </div>
             </div>
             <div class="row spacepurplebg white">
                 <div class="col-md-10 no-pad">
-                    Action | Some Action
+                    Action | <a href="{{ path('user_post_new') }}">Create Post</a>
                 </div>
             </div>
             <div class="row">
@@ -51,7 +51,7 @@
                                 {#                            {{ dump(post) }}#}
                                 <tr>
                                     <td>
-                                        {{ post.createdAt|date('Y-m-d') }}
+{#                                        {{ post.createdAt|date('Y-m-d') }}#}
                                     </td>
                                     <td>
                                         <a href="{{ path('blog_show', { id: post.id }) }}">

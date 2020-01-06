@@ -5,12 +5,22 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ *
  */
 class Post
 {
+    /**
+     * Hook timestampable behavior
+     * updates createdAt, updatedAt fields
+     */
+//    use TimestampableEntity;
+
     public const STATUS_DRAFT_KEY = 1;
     public const STATUS_PUBLISHED_KEY = 2;
     public const STATUS_DECLINED_KEY = 3;
@@ -19,7 +29,7 @@ class Post
     public const STATUS_PUBLISHED = 'published';
     public const STATUS_DECLINED = 'declined';
 
-    public const POST_PER_PAGE = 2;
+    public const LIMIT_PER_PAGE = 2;
 
     /**
      * @ORM\Id()
@@ -34,11 +44,13 @@ class Post
     private $title;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $created_at;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
      */
     private $updated_at;
@@ -47,7 +59,6 @@ class Post
      * @ORM\Column(type="text", nullable=true)
      */
     private $content;
-
 
     /**
      * @ORM\Column(type="integer", options={"default":1})
@@ -128,6 +139,11 @@ class Post
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
     public function getContent(): ?string
     {
         return $this->content;
@@ -169,11 +185,11 @@ class Post
     /**
      * Set author
      *
-     * @param User $author
+     * @param User $user
      *
      * @return Post
      */
-    public function setUser(User $user): Post
+    public function setUser(User $user): self
     {
         $this->user = $user;
 

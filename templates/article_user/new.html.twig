@@ -1,0 +1,17 @@
+{% extends 'content_base.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_body %}
+    <h1>Create a new Article!</h1>
+
+    {{ include('article_user/_form.html.twig', {
+        button_text: 'Create'
+    }) }}
+{% endblock %}

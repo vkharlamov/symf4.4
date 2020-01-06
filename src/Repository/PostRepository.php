@@ -22,19 +22,10 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Article[]
+     * @param int $userId
+     *
+     * @return \Doctrine\ORM\Query
      */
-    public function findAllPublishedOrderedByNewest()
-    {
-        return $this->addIsPublishedQueryBuilder()
-            ->leftJoin('a.tags', 't')
-            ->addSelect('t')
-            ->orderBy('a.publishedAt', 'DESC')
-            ->getQuery()
-            ->getResult()
-            ;
-    }
-
     public function findUserPostOrderedByNewest(int $userId)
     {
         $query = $this->createQueryBuilder('p');
@@ -47,10 +38,8 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.user_id = :user_id')
             ->setParameter('user_id', $userId)
             ->orderBy('p.created_at', 'ASC')
-            ->setMaxResults(Post::POST_PER_PAGE)
-            ->getQuery()
-            ->getResult()
-            ;
+            ->setMaxResults(Post::LIMIT_PER_PAGE)
+            ->getQuery();
     }
 
     public static function createNonDeletedCriteria(): Criteria

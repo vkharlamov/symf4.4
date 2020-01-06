@@ -2,6 +2,8 @@
 
 namespace App\Form;
 
+use App\Entity\Post;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -10,13 +12,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class EntryFormType extends AbstractType
+class PostFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        /** @var Post|null $article */
+        $article = $options['data'] ?? null;
+        $isEdit = $article && $article->getId();
+
         $builder
             ->add(
                 'title',
@@ -26,6 +32,9 @@ class EntryFormType extends AbstractType
                     'attr' => ['class' => 'form-control']
                 ]
             )
+//            ->add('author', UserSelectTextType::class, [
+//                'disabled' => $isEdit
+//            ])
             ->add(
                 'content',
                 TextareaType::class,
@@ -52,13 +61,5 @@ class EntryFormType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'App\Entity\Post'
         ]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'author_form';
     }
 }
