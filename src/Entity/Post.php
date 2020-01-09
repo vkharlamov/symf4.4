@@ -5,13 +5,10 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- *
  */
 class Post
 {
@@ -19,15 +16,17 @@ class Post
      * Hook timestampable behavior
      * updates createdAt, updatedAt fields
      */
-//    use TimestampableEntity;
+    use TimestampableEntity;
 
     public const STATUS_DRAFT_KEY = 1;
     public const STATUS_PUBLISHED_KEY = 2;
     public const STATUS_DECLINED_KEY = 3;
+    public const STATUS_MODERATE_KEY = 4;
 
     public const STATUS_DRAFT = 'draft';
     public const STATUS_PUBLISHED = 'published';
     public const STATUS_DECLINED = 'declined';
+    public const STATUS_MODERATE = 'moderation';
 
     public const LIMIT_PER_PAGE = 2;
 
@@ -43,17 +42,6 @@ class Post
      */
     private $title;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $created_at;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $updated_at;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -63,7 +51,7 @@ class Post
     /**
      * @ORM\Column(type="integer", options={"default":1})
      */
-    private $status = self::STATUS_DRAFT;
+    private $status = self::STATUS_DRAFT_KEY;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="posts")
@@ -127,23 +115,6 @@ class Post
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
     public function getContent(): ?string
     {
         return $this->content;
@@ -166,7 +137,8 @@ class Post
         return [
             self::STATUS_DRAFT_KEY => self::STATUS_DRAFT,
             self::STATUS_DECLINED_KEY => self::STATUS_DECLINED,
-            self::STATUS_PUBLISHED_KEY => self::STATUS_PUBLISHED
+            self::STATUS_PUBLISHED_KEY => self::STATUS_PUBLISHED,
+            self::STATUS_MODERATE_KEY => self::STATUS_MODERATE
         ][$this->status];
     }
 

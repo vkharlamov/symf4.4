@@ -17,9 +17,9 @@ class BlogController extends AbstractController
     public function list(PostRepository $repository, PaginatorInterface $paginator, $page)
     {
         $pagination = $paginator->paginate(
-            $repository->findAll(),
+            $repository->getPostListOrderedByNewest(),
             $page,
-            1
+            Post::LIMIT_PER_PAGE
         );
 
         return $this->render('blog/list.html.twig', [
@@ -35,17 +35,6 @@ class BlogController extends AbstractController
      */
     public function show(Post $post, PostService $postService)
     {
-        /*
-        $post = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->find($id);
-        */
-
-        if (!$post) {
-            // cause the 404 page not found to be displayed
-            throw $this->createNotFoundException();
-        }
-
         return $this->render('blog/show.html.twig', [
             'post' => $post,
             'countVotes' => $postService->countVotes($post),

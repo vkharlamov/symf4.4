@@ -62,7 +62,18 @@
                                         {{ post.statusName }}
                                     </td>
                                     <td>
-                                        {#Actions#}
+                                        {%  if (post.status is constant('\\App\\Entity\\Post::STATUS_DRAFT_KEY')) %}
+                                            <a href="{{ path('user_post_edit', {
+                                                id: post.id
+                                            }) }}">
+                                                <span class="fa fa-pencil"> Edit</span>
+                                            </a>
+                                            <a href="{{ path('user_post_publish', {
+                                                id: post.id
+                                            }) }}">
+                                                <span class="fa fa-reply"> Publish</span>
+                                            </a>
+                                        {%  endif %}
                                     </td>
                                 </tr>
                             {% else %}

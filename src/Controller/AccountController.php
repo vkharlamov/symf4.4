@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostFormType;
 use App\Repository\PostRepository;
+use App\Service\PostService;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -69,25 +70,36 @@ class AccountController extends BaseController
      */
     public function edit(Post $post, Request $request, EntityManagerInterface $em)
     {
-        $form = $this->createForm(PostFormType::class, $post, [
-            'include_published_at' => true
-        ]);
+        $form = $this->createForm(PostFormType::class, $post);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($post);
             $em->flush();
 
-            $this->addFlash('success', 'Article Updated! Inaccuracies squashed!');
+            $this->addFlash('success', 'Success. Article Updated!');
 
-            return $this->redirectToRoute('admin_article_edit', [
+            return $this->redirectToRoute('user_post_edit', [
                 'id' => $post->getId(),
             ]);
         }
 
-        return $this->render('article_admin/edit.html.twig', [
+        return $this->render('article_user/edit.html.twig', [
             'articleForm' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/account/post/{id}/publicate", name="user_post_publish")
+     *
+     * @param Post $post
+     */
+    public function publish(Post $post, PostService $service)
+    {
+        $service->userPublishArticle($post);
+        $this->addFlash('success', 'Success. Article queued for moderation');
+
+        return $this->redirectToRoute('user_post_list');
     }
 
 

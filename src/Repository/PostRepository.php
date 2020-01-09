@@ -5,7 +5,10 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -26,18 +29,18 @@ class PostRepository extends ServiceEntityRepository
      *
      * @return \Doctrine\ORM\Query
      */
-    public function findUserPostOrderedByNewest(int $userId)
+    public function findUserPostOrderedByNewest(int $userId): Query
     {
         $query = $this->createQueryBuilder('p');
 
         return $query
-            ->innerJoin('p.user','u')
+            ->innerJoin('p.user', 'u')
             ->addSelect('u')
-             //   Join::WITH,
+            //   Join::WITH,
             //    $query->expr()->eq('p.user_id', 'u.id')
             ->andWhere('p.user_id = :user_id')
             ->setParameter('user_id', $userId)
-            ->orderBy('p.created_at', 'ASC')
+            ->orderBy('p.createdAt', 'ASC')
             ->setMaxResults(Post::LIMIT_PER_PAGE)
             ->getQuery();
     }
@@ -46,46 +49,25 @@ class PostRepository extends ServiceEntityRepository
     {
         return Criteria::create()
             ->andWhere(Criteria::expr()->eq('isDeleted', false))
-            ->orderBy(['createdAt' => 'DESC'])
-            ;
+            ->orderBy(['createdAt' => 'DESC']);
     }
 
-    /**
-     * Get post list
-     */
-//    public function findAll() :?Post
-//    {
-//        return $this->getDoctrine()
-//            ->getRepository(Post::class)
-//            ->findAll();
-//    }
-
-    // /**
-    //  * @return Post[] Returns an array of Post objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getPostListOrderedByNewest(): Query
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->addIsPublishedQueryBuilder()
+            ->orderBy('p.createdAt', 'ASC')
+            ->getQuery();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Post
+    private function addIsPublishedQueryBuilder(QueryBuilder $qb = null): QueryBuilder
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->getOrCreateQueryBuilder($qb)
+            ->andWhere('p.status = :post_status')
+            ->setParameter('post_status', Post::STATUS_PUBLISHED_KEY);
     }
-    */
+
+    private function getOrCreateQueryBuilder(QueryBuilder $qb = null): QueryBuilder
+    {
+        return $qb ?: $this->createQueryBuilder('p');
+    }
 }
