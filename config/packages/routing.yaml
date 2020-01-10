@@ -1,3 +1,8 @@
-framework:
-    router:
-        utf8: true
+# config/routes.yaml
+#framework:
+#    router:
+#        utf8: true
+#admin_publications_list:
+#    path: /admin/publications
+#     the controller value has the format 'controller_class::method_name'
+#    controller: \App\Controller\AdminPublicationsController::list

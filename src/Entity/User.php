@@ -96,6 +96,7 @@ class User implements UserInterface
     {
 
         $roles = $this->roles;
+        $roles = ['ADMIN_ROLE'];
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 

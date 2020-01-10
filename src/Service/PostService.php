@@ -4,19 +4,28 @@ namespace App\Service;
 
 use App\Entity\Post;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
+/**
+ * Class PostService
+ * @package App\Service
+ */
 class PostService
 {
+
     protected $postRepository;
+
+    protected $em;
 
     /**
      * PostService constructor.
      *
      * @param PostRepository $postRepository
      */
-    public function __construct(PostRepository $postRepository)
+    public function __construct(PostRepository $postRepository, EntityManagerInterface $em)
     {
         $this->postRepository = $postRepository;
+        $this->em = $em;
     }
 
     /**

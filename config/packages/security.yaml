@@ -55,5 +55,7 @@ security:
   access_control:
   # but, definitely allow /login to be accessible anonymously
   - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-  # - { path: ^/admin, roles: ROLE_ADMIN }
-  # - { path: ^/profile, roles: ROLE_USER }
+  # Admin side
+  #- { path: ^/admin, roles: ROLE_ADMIN }
+  # User account
+  #- { path: ^/account, roles: ROLE_USER }

@@ -61,9 +61,9 @@ class PostRepository extends ServiceEntityRepository
 
     private function addIsPublishedQueryBuilder(QueryBuilder $qb = null): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder($qb)
-            ->andWhere('p.status = :post_status')
-            ->setParameter('post_status', Post::STATUS_PUBLISHED_KEY);
+        return $this->getOrCreateQueryBuilder($qb);
+//            ->andWhere('p.status = :post_status')
+//            ->setParameter('post_status', Post::STATUS_PUBLISHED_KEY);
     }
 
     private function getOrCreateQueryBuilder(QueryBuilder $qb = null): QueryBuilder
