@@ -3,8 +3,10 @@
 /*@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';*/
 /*@import '~font-awesome/css/font-awesome.css';*/
 /*@import '~bootstrap-sass/assets/stylesheets/_bootstrap-sprockets.scss';*/
+
 @import "~bootstrap";
 @import "~font-awesome";
+@import "~bootstrap-datepicker-webpack/dist/css/bootstrap-datepicker.min.css";
 
 body {
     position: relative;
@@ -243,6 +245,43 @@ html {height:100%}
     }
 }
 
+/* FORM LOGIN */
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
 
 
 /* FOOTER */
@@ -256,4 +295,5 @@ html {height:100%}
     background-color: #fff;
     margin-top: 10px;
 }
+
 

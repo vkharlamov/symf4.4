@@ -10,7 +10,10 @@ const $ = require('jquery');
 
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.scss');
+
 require('bootstrap');
+
+require('bootstrap-datepicker-webpack');
 // require('bootstrap-sass/assets/fonts/bootstrap/css/font-awesome.css');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
