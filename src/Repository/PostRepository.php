@@ -70,4 +70,13 @@ class PostRepository extends ServiceEntityRepository
     {
         return $qb ?: $this->createQueryBuilder('p');
     }
+
+    public function getStatusesForAdmin(): array
+    {
+        return array_flip([
+            Post::STATUS_DRAFT_KEY => Post::STATUS_DRAFT,
+            Post::STATUS_DECLINED_KEY => Post::STATUS_DECLINED,
+            Post::STATUS_PUBLISHED_KEY => Post::STATUS_PUBLISHED,
+        ]);
+    }
 }

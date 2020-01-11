@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
 use App\Entity\Post;
@@ -54,5 +56,11 @@ class PostService
             $this->em->persist($post);
             $this->em->flush();
         }
+    }
+
+    public function update(Post $post): void
+    {
+        $this->em->persist($post);
+        $this->em->flush();
     }
 }

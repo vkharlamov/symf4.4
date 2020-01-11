@@ -1,0 +1,30 @@
+{% extends 'content_base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+
+{% block body %}
+    <div class="admin-post-edit">
+        <h1 class="my-3">Edit Post #{{ post.id }}</h1>
+        <div>
+            <h3>Title: </h3>
+            <div>{{ post.title }}</div>
+        </div>
+        <div>
+            <h3>Tags: </h3>
+            {% include 'parts/tags.html.twig' with {'tags': post.postTags} %}
+        </div>
+        <div>
+            <h3>Text: </h3>
+            <div>{{ post.content }}</div>
+        </div>
+        <div>
+            <h3>Update Status:</h3>
+            {{ form_start(formStatus) }}
+            {{ form_widget(formStatus.status) }}
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {{ form_end(formStatus) }}
+        </div>
+    </div>
+{% endblock %}
