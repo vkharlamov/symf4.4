@@ -24,7 +24,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('userhelper', './assets/js/user_helper.js')
+    // .addEntry('userhelper', './assets/js/user_helper.js')
     //.addEntry('page2', './assets/js/page2.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
@@ -64,11 +64,20 @@ Encore
 //.enableIntegrityHashes(Encore.isProduction())
 
 // uncomment if you're having problems with a jQuery plugin
-  .autoProvidejQuery()
+/*    .addExternals(
+        {
+            jquery: 'jQuery'
+        }
+    )*/
+   .autoProvidejQuery()
 
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()
 //.addEntry('admin', './assets/js/admin.js')
 ;
 
-module.exports = Encore.getWebpackConfig();
+var config = Encore.getWebpackConfig();
+
+// config.externals.jquery = 'jQuery';
+
+module.exports = config;

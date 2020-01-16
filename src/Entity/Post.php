@@ -28,6 +28,13 @@ class Post
     public const STATUS_DECLINED = 'declined';
     public const STATUS_MODERATE = 'moderation';
 
+    public const STATUSES = [
+        self::STATUS_DRAFT_KEY => self::STATUS_DRAFT,
+        self::STATUS_DECLINED_KEY => self::STATUS_DECLINED,
+        self::STATUS_PUBLISHED_KEY => self::STATUS_PUBLISHED,
+        self::STATUS_MODERATE_KEY => self::STATUS_MODERATE,
+    ];
+
     public const LIMIT_PER_PAGE = 2;
 
     /**
@@ -134,12 +141,7 @@ class Post
 
     public function getStatusName(): string
     {
-        return [
-            self::STATUS_DRAFT_KEY => self::STATUS_DRAFT,
-            self::STATUS_DECLINED_KEY => self::STATUS_DECLINED,
-            self::STATUS_PUBLISHED_KEY => self::STATUS_PUBLISHED,
-            self::STATUS_MODERATE_KEY => self::STATUS_MODERATE
-        ][$this->status];
+        return self::STATUSES[$this->status];
     }
 
     public function setStatus(int $status): self

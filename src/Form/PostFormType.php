@@ -59,7 +59,7 @@ class PostFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'App\Entity\Post'
+            'data_class' => Post::class
         ]);
     }
 }

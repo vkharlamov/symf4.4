@@ -21,7 +21,31 @@ services:
     # as action arguments even if you don't extend any base controller class
     App\Controller\:
         resource: '../src/Controller'
+        public: false
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+
+    #request_dto_resolver:
+    #App\Controller\AdminPublicationsController:
+     #   public: true
+      #  bind:
+       #    $postFilterRequest: '@App\DTO\PostFilterRequest'
+
+    App\ArgumentResolver\RequestPostFilterResolver:
+        arguments:
+            - '@validator'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 250 }
+
+    #post_filter_request:
+     #   class : App\DTO\PostFilterRequest
+      #  autowire: true
+       # arguments:
+            # $request: '@request'
+        #    - '@request'
+        #public: true
+

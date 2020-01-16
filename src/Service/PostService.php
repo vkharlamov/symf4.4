@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\DTO\IRequestDto;
+use App\DTO\PostFilterRequest;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class PostService
@@ -14,20 +18,27 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class PostService
 {
-
     protected $postRepository;
 
     protected $em;
+
+    private $paginator;
 
     /**
      * PostService constructor.
      *
      * @param PostRepository $postRepository
+     * @param EntityManagerInterface $em
+     * @param PaginatorInterface $paginator
      */
-    public function __construct(PostRepository $postRepository, EntityManagerInterface $em)
-    {
+    public function __construct(
+        PostRepository $postRepository,
+        EntityManagerInterface $em,
+        PaginatorInterface $paginator
+    ) {
         $this->postRepository = $postRepository;
         $this->em = $em;
+        $this->paginator = $paginator;
     }
 
     /**
@@ -62,5 +73,20 @@ class PostService
     {
         $this->em->persist($post);
         $this->em->flush();
+    }
+
+    /**
+     * @param IRequestDto $postFilterRequest
+     * @param int $page
+     *
+     * @return PaginatorInterface
+     */
+    public function getFilteredPosts(IRequestDto $postFilterRequest, int $page): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->postRepository->getFilteredPostList($postFilterRequest),
+            $page,
+            Post::LIMIT_PER_PAGE
+        );
     }
 }

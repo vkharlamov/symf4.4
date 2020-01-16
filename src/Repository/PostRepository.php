@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\DTO\PostFilterRequest;
 use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
+use App\DTO\IRequestDto;
 
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
@@ -54,7 +57,7 @@ class PostRepository extends ServiceEntityRepository
 
     public function getPostListOrderedByNewest(): Query
     {
-        return $this->addIsPublishedQueryBuilder()
+        return $this->getOrCreateQueryBuilder()
             ->orderBy('p.createdAt', 'ASC')
             ->getQuery();
     }
@@ -78,5 +81,18 @@ class PostRepository extends ServiceEntityRepository
             Post::STATUS_DECLINED_KEY => Post::STATUS_DECLINED,
             Post::STATUS_PUBLISHED_KEY => Post::STATUS_PUBLISHED,
         ]);
+    }
+
+    /**
+     * @param IRequestDto $dtoPost
+     *
+     * @return Query
+     */
+    public function getFilteredPostList(IRequestDto $dtoPost) {
+        //dd($request);
+        // @TODO ADD filter params
+        return $this->getOrCreateQueryBuilder()
+            ->orderBy('p.createdAt', 'ASC')
+            ->getQuery();
     }
 }

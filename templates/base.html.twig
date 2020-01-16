@@ -1,56 +1,52 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>{% block title %}Welcome!{% endblock %}</title>
-    {% block stylesheets %}
-        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-        {{ encore_entry_link_tags('app') }}
+    <head>
+        <meta charset="UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+            {{ encore_entry_link_tags('app') }}
 
-        <!-- Renders a link tag (if your module requires any CSS)
-             <link rel="stylesheet" href="/build/app.css"> -->
+            <!-- Renders a link tag (if your module requires any CSS)
+                 <link rel="stylesheet" href="/build/app.css"> -->
+        {% endblock %}
+    </head>
+    <body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Simple Blog</h5>
+        <nav class="my-1 mr-md-5">
+            <a class="p-2 text-dark" href="{{ path('admin_publications_list', { }) }}">Publications</a>
+            <a class="p-2 text-dark" href="{{ path('admin_users_list') }}">Users</a>
+        </nav>
+        <nav class="my-2 mr-md-0 mr-md-3">
+            {#    {% if is_granted('IS_AUTHENTICATsED_FULLY') %}#}
+            <a class="btn btn-outline-dark" href="{{ path('app_logout') }}">Logout</a>
+            {#    {% else %}#}
+            <a class="btn btn-outline-primary" href="{{ path('app_register') }}">Sign up</a>
+            <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Login</a>
+            {#    {% endif %}#}
+        </nav>
+        {% if is_granted('ROLE_USER') %}
+            <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink"
+               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(100) }}">
+            </a>
+        {% endif %}
+    </div>
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block body %}{% endblock %}
+    </div>
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
-</head>
-<body>
-<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">Simple Blog</h5>
-    <nav class="my-1 mr-md-5">
-        <a class="p-2 text-dark" href="{{ path('admin_publications_list', { }) }}">Publications</a>
-        <a class="p-2 text-dark" href="{{ path('admin_users_list') }}">Users</a>
-    </nav>
-    <nav class="my-2 mr-md-0 mr-md-3">
-        {#    {% if is_granted('IS_AUTHENTICATsED_FULLY') %}#}
-        <a class="btn btn-outline-dark" href="{{ path('app_logout') }}">Logout</a>
-        {#    {% else %}#}
-        <a class="btn btn-outline-primary" href="{{ path('app_register') }}">Sign up</a>
-        <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Login</a>
-        {#    {% endif %}#}
-    </nav>
-    {% if is_granted('ROLE_USER') %}
-        <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink"
-           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(100) }}">
-        </a>
-    {% endif %}
-</div>
-<div class="container">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% block body %}{% endblock %}
-</div>
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-
-    <!-- Renders app.js & a webpack runtime.js file
-        <script src="/build/runtime.js"></script>
-        <script src="/build/app.js"></script> -->
-{% endblock %}
-</body>
+    </body>
 </html>
