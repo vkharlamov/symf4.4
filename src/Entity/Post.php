@@ -239,4 +239,14 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @param $name
+     *
+     * @return int
+     */
+    public static function getStatusByName($name): int
+    {
+        return array_flip(self::STATUSES)[$name] ?: 0 ;
+    }
 }

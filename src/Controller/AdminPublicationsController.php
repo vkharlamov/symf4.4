@@ -45,6 +45,7 @@ class AdminPublicationsController extends AbstractController
      */
     public function edit(Post $post, PostService $postService, Request $request)
     {
+        dd($post);
         $form = $this->createForm(PostFormStatus::class, $post);
         $form->handleRequest($request);
 

@@ -18,6 +18,9 @@ use App\DTO\IRequestDto;
  */
 class PostFilterRequest implements IRequestDto
 {
+    public const FIELDS = [
+        'status', 'dateFrom', 'dateTo',
+    ];
     /**
      * @PublicationFilterAssert\PostStatus
      */
@@ -66,16 +69,29 @@ class PostFilterRequest implements IRequestDto
 
     public function getDateFrom(): string
     {
-        return $this->dateFrom;
+        return $this->dateFrom ?: '';
     }
 
     public function getDateTo(): string
     {
-        return $this->dateTo;
+        return $this->dateTo ?: '';
     }
 
     /*    public function getAuthor(): User
         {
             return $this->author;
         }*/
+
+    /**
+     * @return mixed
+     */
+    public function __get($property)
+    {
+//        if (method_exists($this, 'get'. $method)) {
+//            return $this->{'get' . $method}();
+//        }
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
+    }
 }

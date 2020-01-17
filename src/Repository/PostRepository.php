@@ -5,8 +5,11 @@ namespace App\Repository;
 use App\DTO\PostFilterRequest;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Filters\PostFilter;
+use App\Repository\Traits\Filterable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -22,9 +25,22 @@ use App\DTO\IRequestDto;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    use Filterable;
+
+    /**
+     * @var EntityManager
+     */
+    private $em;
+    /**
+     * @var PostFilter
+     */
+    private $filter;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em, PostFilter $filter)
     {
         parent::__construct($registry, Post::class);
+        $this->em = $em;
+        $this->filter = $filter;
     }
 
     /**
@@ -83,15 +99,40 @@ class PostRepository extends ServiceEntityRepository
         ]);
     }
 
+
     /**
      * @param IRequestDto $dtoPost
      *
      * @return Query
      */
-    public function getFilteredPostList(IRequestDto $dtoPost) {
-        //dd($request);
-        // @TODO ADD filter params
-        return $this->getOrCreateQueryBuilder()
+    public function getFilteredPostList(IRequestDto $dtoPost): Query
+    {
+        /**
+         * Test Doctrine filters
+         * It's global solution for application
+         *
+         * @see links with descripyions
+         * https://devacademy.ru/article/povyishenie-bezopasnosti-i-uproschenie-razrabotki-v-symfony2-pri-pomoschi-annotatsij-i-filtrov-doktrinyi/
+         * http://blog.michaelperrin.fr/2014/12/05/doctrine-filters/
+         */
+        //$filter = $this->em->getFilters()->enable("test_global_filter");
+        /** Bind params by hand to get them in addFilterConstraint() */
+        /*
+        $filter->setParameter('status', Post::getStatusByName($dtoPost->getStatus()));
+        $filter->setParameter('dateFrom', $dtoPost->getDateFrom());
+        $filter->setParameter('dateTo', $dtoPost->getDateTo());
+        */
+
+        // Another filtering approach
+        /** @var  QueryBuilder $qBuilder */
+        $qBuilder = $this->addFilters(
+            $this->createQueryBuilder($alias = 'p'),
+            $this->filter,
+            $dtoPost, // i.e. validated filter fields
+            $alias
+        );
+
+        return $qBuilder
             ->orderBy('p.createdAt', 'ASC')
             ->getQuery();
     }

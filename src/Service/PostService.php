@@ -83,8 +83,11 @@ class PostService
      */
     public function getFilteredPosts(IRequestDto $postFilterRequest, int $page): PaginationInterface
     {
+
+        $query = $this->postRepository->getFilteredPostList($postFilterRequest);
+
         return $this->paginator->paginate(
-            $this->postRepository->getFilteredPostList($postFilterRequest),
+            $query,
             $page,
             Post::LIMIT_PER_PAGE
         );
