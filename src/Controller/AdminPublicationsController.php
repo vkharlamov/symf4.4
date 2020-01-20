@@ -6,17 +6,16 @@ use App\DTO\PostFilterRequest;
 use App\Entity\Post;
 use App\Form\PostFormStatus;
 use App\Service\PostService;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class AdminPublicationsController
  * @package App\Controller
  */
-class AdminPublicationsController extends AbstractController
+class AdminPublicationsController extends BaseController
 {
     /**
      * @Route("/admin/publications/{page}", name="admin_publications_list", requirements={"page"="\d+"})
@@ -35,19 +34,18 @@ class AdminPublicationsController extends AbstractController
     }
 
     /**
-     * @Route("/admin/publications/{id}/edit", methods={"GET","HEAD", "POST"}, name="admin_publication_edit")
+     * @Route("/admin/publications/{id}/edit", name="admin_publication_edit")
+     * @ParamConverter("post", class="App\Entity\Post")
      *
      * @param Post $post
      * @param PostService $postService
-     * @param Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit(Post $post, PostService $postService, Request $request)
+    public function edit(Post $post, PostService $postService)
     {
-        dd($post);
         $form = $this->createForm(PostFormStatus::class, $post);
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $postService->update($post);

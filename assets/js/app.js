@@ -6,11 +6,9 @@
  */
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
-require('jquery');
+var $ = require('jquery');
 
-// global.$ = global.jQuery = $;
-
+global.$ = global.jQuery = $;
 
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.scss');
@@ -20,7 +18,10 @@ require('bootstrap');
 require('bootstrap-datepicker-webpack');
 
 require('./admin-filters-dashboard');
-
 // require('bootstrap-sass/assets/fonts/bootstrap/css/font-awesome.css');
+
+// To autocomplete user search by email
+require('./admin_article_form');
+require('./algolia-autocomplete');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

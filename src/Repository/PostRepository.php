@@ -99,7 +99,6 @@ class PostRepository extends ServiceEntityRepository
         ]);
     }
 
-
     /**
      * @param IRequestDto $dtoPost
      *
@@ -133,6 +132,8 @@ class PostRepository extends ServiceEntityRepository
         );
 
         return $qBuilder
+            ->andWhere('p.status <> :draft') // admin has no access to user' draft
+            ->setParameter('draft', Post::getStatusByName(Post::STATUS_DRAFT))
             ->orderBy('p.createdAt', 'ASC')
             ->getQuery();
     }

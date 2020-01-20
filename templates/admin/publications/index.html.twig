@@ -2,8 +2,6 @@
 
 {% block title %}Manage Posts{% endblock %}
 
-{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
-
 {% block content_body %}
     <div class="row" id="admin-publications-dashboard">
         <div class="col-sm-12">
@@ -14,43 +12,29 @@
                     <select class="form-control" name="status">
                         <option></option>
                         {% for status in statuses %}
-                            <option {% if current_status == status %}selected{% endif %} value="{{ status }}">{{ status }}</option>
+                            <option {% if current_status == status %}selected{% endif %}
+                                    value="{{ status }}">{{ status }}</option>
                         {% endfor %}
                     </select>
                     {% set current_dateFrom = app.request.request.get("dateFrom") %}
                     <div class="input-group date">
-                        <input type="text" value="{{ current_dateFrom }}" class="form-control datepicker" data-provide="datepicker" placeholder="Date from" name="dateFrom">
+                        <input type="text" value="{{ current_dateFrom }}" class="form-control datepicker"
+                               data-provider="datepicker" placeholder="Date from" name="dateFrom">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div>
                     {% set current_dateTo = app.request.request.get("dateTo") %}
                     <div class="input-group date">
-                        <input type="text" value="{{ current_dateTo }}" class="form-control datepicker" placeholder="Date To" name="dateTo">
+                        <input type="text" value="{{ current_dateTo }}" class="form-control datepicker"
+                               data-provider="datepicker" aplaceholder="Date To" name="dateTo">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div>
-
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
-            <form>
-                <div class="input-group mb-3">
-                    <input type="text"
-                           name="q"
-                           class="form-control"
-                           value="{{ app.request.query.get('q') }}"
-                           placeholder="Search..."
-                    >
-                    <div class="input-group-append">
-                        <button type="submit"
-                                class="btn btn-outline-secondary">
-                            <span class="fa fa-search"></span>
-                        </button>
-                    </div>
-                </div>
-            </form>
 
             <table class="table table-striped">
                 <thead>

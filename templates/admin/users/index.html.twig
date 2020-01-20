@@ -1,69 +1,61 @@
 {% extends 'content_base.html.twig' %}
 
-{% block title %}Manage Comments{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+{% endblock %}
 
-{% block content_class %}{{ parent() }} show-article-container-border-green{% endblock %}
+{% block title %}Manage Users{% endblock %}
 
 {% block content_body %}
     <div class="row">
         <div class="col-sm-12">
-            <h1>Manage Comments ({{ pagination.getTotalItemCount }})</h1>
-
-            <form>
-                <div class="input-group mb-3">
-                    <input type="text"
-                           name="q"
-                           class="form-control"
-                           value="{{ app.request.query.get('q') }}"
-                           placeholder="Search..."
-                    >
-                    <div class="input-group-append">
-                        <button type="submit"
-                                class="btn btn-outline-secondary">
-                            <span class="fa fa-search"></span>
-                        </button>
-                    </div>
+            <h1>Manage Users ({{ pagination.getTotalItemCount }})</h1>
+            {{ form_start(formSearch) }}
+            <div class="input-group mb-3 pull-right">
+                {{ form_row(formSearch.author, {
+                    label: false,
+                    class: 'form-control'
+                }) }}
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-secondary">
+                        <span class="fa fa-search"></span>
+                    </button>
                 </div>
-            </form>
+            </div>
+            {{ form_end(formSearch) }}
 
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Article</th>
-                    <th>Author</th>
-                    <th>Comment</th>
-                    <th>Created</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for comment in pagination %}
+                {% for user in pagination %}
                     <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.isActive }}</td>
                         <td>
-                            <a href="{{ path('article_show', {'slug': comment.article.slug}) }}">
-                                {{ comment.article.title }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ comment.authorName }}
-                        </td>
-                        <td style="width: 20%;">
-                            {{ comment.content|truncate }}
-                        </td>
-                        <td>
-                            {{ comment.createdAt|ago }}
-                        </td>
-                    </tr>
-                {% else %}
-                    <tr>
-                        <td colspan="4" class="text-center">
-                            No comments found
+                            {% if user.isActive == 1 or user.isAdmin %}
+                                -
+                            {% elseif user.isActive %}
+                                <a href="{{ path('admin_user_block', {id: user.id}) }}">Block</a>
+                            {% else %}
+                                <a href="{{ path('admin_user_activate', {id: user.id}) }}">Activate</a>
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-
-            {{ knp_pagination_render(pagination) }}
+            <div>
+                {{ knp_pagination_render(pagination) }}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -47,6 +47,9 @@
     </div>
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
+        <script>
+            $('.dropdown-toggle').dropdown();
+        </script>
     {% endblock %}
     </body>
 </html>

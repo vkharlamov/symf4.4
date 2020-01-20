@@ -22,14 +22,15 @@ class PostFilter extends Filter
 
     protected function dateFrom($dateFrom): QueryBuilder
     {
+//        dd($dateFrom, DateTime::createFromFormat('Y-m-d', $dateFrom)->setTime(0, 0, 0));
         return $this->builder->andWhere($this->alias . '.createdAt >= :dateFrom')
-            ->setParameter('dateFrom', (DateTime::createFromFormat('d.m.Y', $dateFrom))->setTime(0, 0, 0));
+            ->setParameter('dateFrom', DateTime::createFromFormat('Y-m-d', $dateFrom)->setTime(0, 0, 0));
     }
 
     protected function dateTo($dateTo): QueryBuilder
     {
         return $this->builder->andWhere($this->alias . '.createdAt <= :dateTo')
-            ->setParameter('dateTo', (DateTime::createFromFormat('d.m.Y', $dateTo))->setTime(23, 59, 59));
+            ->setParameter('dateTo', DateTime::createFromFormat('Y-m-d', $dateTo)->setTime(23, 59, 59));
     }
 
     protected function userId($id): QueryBuilder

@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * @IsGranted("ROLE_USER")
@@ -23,11 +24,11 @@ class AccountController extends BaseController
     /**
      * @Route("/account", name="user_post_list")
      */
-    public function index(PostRepository $repository, Request $request, PaginatorInterface $paginator)
+    public function index(PostRepository $repository, PaginatorInterface $paginator)
     {
         $pagination = $paginator->paginate(
             $repository->findUserPostOrderedByNewest($this->getUser()->getId()),
-            $request->query->getInt('page', 1),
+            $this->request->query->getInt('page', 1),
             Post::LIMIT_PER_PAGE
         );
 
@@ -40,17 +41,17 @@ class AccountController extends BaseController
      * @Route("/account/post/new", name="user_post_new")
      *
      */
-    public function new(EntityManagerInterface $em, Request $request)
+    public function new(EntityManagerInterface $em)
     {
         $form = $this->createForm(PostFormType::class);
 
-        $form->handleRequest($request);
+        $form->handleRequest($this->request);
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Post $post */
             $post = $form->getData();
             $post->setUser($this->getUser());
-//            dump($post);
-            dump($form->getData());
+
+//            dump($form->getData());
 
             $em->persist($post);
             $em->flush();
@@ -67,13 +68,13 @@ class AccountController extends BaseController
 
     /**
      * @Route("/account/post/{id}/edit", name="user_post_edit")
-     *
+     * @ParamConverter("post", class="App\Entity\Post")
      */
-    public function edit(Post $post, Request $request, EntityManagerInterface $em)
+    public function edit(Post $post, EntityManagerInterface $em)
     {
         $form = $this->createForm(PostFormType::class, $post);
+        $form->handleRequest($this->request);
 
-        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($post);
             $em->flush();

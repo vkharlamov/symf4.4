@@ -8,6 +8,5 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactoryInter
 
 interface IRequestDto
 {
-    //public function __construct();
     public function setRequest($request);
 }

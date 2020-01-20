@@ -39,7 +39,7 @@ services:
         arguments:
             - '@validator'
         tags:
-            - { name: controller.argument_value_resolver, priority: 250 }
+            - { name: controller.argument_value_resolver, priority: 150 }
 
     #post_filter_request:
      #   class : App\DTO\PostFilterRequest

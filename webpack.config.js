@@ -69,7 +69,8 @@ Encore
             jquery: 'jQuery'
         }
     )*/
-   .autoProvidejQuery()
+   // .autoProvidejQuery()
+
 
 // uncomment if you use API Platform Admin (composer req api-admin)
 //.enableReactPreset()

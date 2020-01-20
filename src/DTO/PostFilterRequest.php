@@ -83,13 +83,12 @@ class PostFilterRequest implements IRequestDto
         }*/
 
     /**
+     * @param $property
+     *
      * @return mixed
      */
     public function __get($property)
     {
-//        if (method_exists($this, 'get'. $method)) {
-//            return $this->{'get' . $method}();
-//        }
         if (property_exists($this, $property)) {
             return $this->$property;
         }
