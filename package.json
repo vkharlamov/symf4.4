@@ -16,6 +16,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "autocomplete.js": "^0.37.0",
         "bootstrap": "^4.4.1",
         "bootstrap-datepicker-webpack": "^1.7.0-dev",
         "datepicker": "0.0.0",

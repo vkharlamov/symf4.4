@@ -17,11 +17,16 @@ require('bootstrap');
 
 require('bootstrap-datepicker-webpack');
 
-require('./admin-filters-dashboard');
-// require('bootstrap-sass/assets/fonts/bootstrap/css/font-awesome.css');
+/*
+ * algolia autocomplete plugin
+ */
+require('autocomplete.js');
 
-// To autocomplete user search by email
-require('./admin_article_form');
+/*
+ * Custom helpers
+ */
+require('./admin-filters-dashboard');
+
 require('./algolia-autocomplete');
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
