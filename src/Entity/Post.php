@@ -35,8 +35,6 @@ class Post
         self::STATUS_MODERATE_KEY => self::STATUS_MODERATE,
     ];
 
-    public const LIMIT_PER_PAGE = 2;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

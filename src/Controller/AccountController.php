@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dictionary\Constants;
 use App\Entity\Post;
 use App\Form\ArticleFormStatus;
 use App\Form\PostFormType;
@@ -28,8 +29,8 @@ class AccountController extends BaseController
     {
         $pagination = $paginator->paginate(
             $repository->findUserPostOrderedByNewest($this->getUser()->getId()),
-            $this->request->query->getInt('page', 1),
-            Post::LIMIT_PER_PAGE
+            $this->request->query->getInt('page', Constants::DEFAULT_PAGE),
+            Constants::USER_PER_PAGE
         );
 
         return $this->render('account/index.html.twig', [

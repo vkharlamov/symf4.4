@@ -37,7 +37,6 @@ class PostFormStatus extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Post::class,
-//            'include_published_at' => false,
         ]);
     }
 }

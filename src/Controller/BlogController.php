@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dictionary\Constants;
 use App\Entity\Post;
 use App\Service\PostService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -14,12 +15,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class BlogController extends AbstractController
 {
-    public function list(PostRepository $repository, PaginatorInterface $paginator, $page)
+    public function list(PostRepository $repository, PaginatorInterface $paginator, $page = Constants::DEFAULT_PAGE)
     {
         $pagination = $paginator->paginate(
             $repository->getPostListOrderedByNewest(),
             $page,
-            Post::LIMIT_PER_PAGE
+            Constants::POST_PER_PAGE
         );
 
         return $this->render('blog/list.html.twig', [

@@ -27,14 +27,14 @@ class PostFilterRequest implements IRequestDto
     private $status;
 
     /**
-     * @Assert\Date
-     * @var string A "Y-m-d" formatted value
+     * @PublicationFilterAssert\Datepicker()
+     * @var string A "d.m.Y" formatted value
      */
     private $dateFrom;
 
     /**
-     * @Assert\Date
-     * @var string A "Y-m-d" formatted value
+     * @PublicationFilterAssert\Datepicker()
+     * @var string A "d.m.Y" formatted value
      */
     private $dateTo;
 

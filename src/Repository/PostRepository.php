@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Dictionary\Constants;
 use App\DTO\PostFilterRequest;
 use App\Entity\Post;
 use App\Entity\User;
@@ -60,7 +61,7 @@ class PostRepository extends ServiceEntityRepository
             ->andWhere('p.user_id = :user_id')
             ->setParameter('user_id', $userId)
             ->orderBy('p.createdAt', 'ASC')
-            ->setMaxResults(Post::LIMIT_PER_PAGE)
+            ->setMaxResults(Constants::POST_PER_PAGE)
             ->getQuery();
     }
 

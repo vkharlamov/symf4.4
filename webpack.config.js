@@ -82,3 +82,9 @@ var config = Encore.getWebpackConfig();
 // config.externals.jquery = 'jQuery';
 
 module.exports = config;
+// module.exports.resolve = {
+//     alias: {
+//         // Force all modules to use the same jquery version.
+//         'jquery': path.join(__dirname, 'node_modules/jquery/dist/jquery')
+//     }
+// };

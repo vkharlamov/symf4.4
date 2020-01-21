@@ -18,8 +18,7 @@
     "dependencies": {
         "autocomplete.js": "^0.37.0",
         "bootstrap": "^4.4.1",
-        "bootstrap-datepicker-webpack": "^1.7.0-dev",
-        "datepicker": "0.0.0",
+        "bootstrap-datepicker": "^1.9.0",
         "font-awesome": "^4.7.0",
         "jquery": "^3.4.1",
         "popper.js": "^1.16.0"

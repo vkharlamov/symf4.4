@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Dictionary\Constants;
 use App\Entity\Post;
 use App\Form\AuthorSearchByEmailType;
 use App\Repository\PostRepository;
@@ -34,14 +35,14 @@ class AdminUsersController extends AbstractController
     /**
      * @Route("/admin/users/{page}", name="admin_users_list", requirements={"page"="\d+"})
      */
-    public function index(UserRepository $repository, PaginatorInterface $paginator, $page = 1)
+    public function index(UserRepository $repository, PaginatorInterface $paginator, $page = Constants::DEFAULT_PAGE)
     {
         $formSearch = $this->createForm(AuthorSearchByEmailType::class);
 
         $pagination = $paginator->paginate(
             $repository->findBy([], ['id' => 'DESC']),
             $page,
-            Post::LIMIT_PER_PAGE
+            Constants::USER_PER_PAGE
         );
 
         return $this->render('admin/users/index.html.twig', [

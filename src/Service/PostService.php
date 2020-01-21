@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use App\Dictionary\Constants;
 use App\DTO\IRequestDto;
 use App\DTO\PostFilterRequest;
 use App\Entity\Post;
@@ -81,7 +82,7 @@ class PostService
      *
      * @return PaginatorInterface
      */
-    public function getFilteredPosts(IRequestDto $postFilterRequest, int $page): PaginationInterface
+    public function getFilteredPosts(IRequestDto $postFilterRequest, int $page = Constants::DEFAULT_PAGE): PaginationInterface
     {
 
         $query = $this->postRepository->getFilteredPostList($postFilterRequest);
@@ -89,7 +90,7 @@ class PostService
         return $this->paginator->paginate(
             $query,
             $page,
-            Post::LIMIT_PER_PAGE
+            Constants::POST_PER_PAGE
         );
     }
 }

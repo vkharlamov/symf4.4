@@ -15,7 +15,7 @@ require('../css/app.scss');
 
 require('bootstrap');
 
-require('bootstrap-datepicker-webpack');
+require('bootstrap-datepicker');
 
 /*
  * algolia autocomplete plugin
