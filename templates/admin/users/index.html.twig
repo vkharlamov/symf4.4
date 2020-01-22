@@ -39,14 +39,14 @@
                     <tr>
                         <td>{{ user.id }}</td>
                         <td>{{ user.email }}</td>
-                        <td>{{ user.isActive }}</td>
+                        <td>{{ user.status|trans({}, 'user_status') }}</td>
                         <td>
-                            {% if user.isActive == 1 or user.isAdmin %}
-                                -
-                            {% elseif user.isActive %}
-                                <a href="{{ path('admin_user_block', {id: user.id}) }}">Block</a>
-                            {% else %}
-                                <a href="{{ path('admin_user_activate', {id: user.id}) }}">Activate</a>
+                            {% if user.status == 1 or user.isAdmin %}
+                                <span class="fa fa-2x fa-address-card-o"></span>
+                            {% elseif user.status == 2 %}
+                                <a href="{{ path('admin_user_block', {id: user.id, page:app.request.get('page')}) }}">Block</a>
+                            {% elseif user.status == 3%}
+                                <a href="{{ path('admin_user_activate', {id: user.id, page:app.request.get('page')}) }}">Activate</a>
                             {% endif %}
                         </td>
                     </tr>

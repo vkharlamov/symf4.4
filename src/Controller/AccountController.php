@@ -40,7 +40,6 @@ class AccountController extends BaseController
 
     /**
      * @Route("/account/post/new", name="user_post_new")
-     *
      */
     public function new(EntityManagerInterface $em)
     {
@@ -51,8 +50,6 @@ class AccountController extends BaseController
             /** @var Post $post */
             $post = $form->getData();
             $post->setUser($this->getUser());
-
-//            dump($form->getData());
 
             $em->persist($post);
             $em->flush();

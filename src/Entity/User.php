@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -14,8 +15,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class User implements UserInterface
 {
-    public const IS_INACTIVE = 0;
-    public const IS_ACTIVE = 1;
+    use TimestampableEntity;
+
+    public const ROLE_USER = 'ROLE_USER';
+    public const ROLE_ADMIN = 'ROLE_ADMIN';
+
+    public const STATUS_NOT_VERIFIED = 1;
+    public const STATUS_ACTIVE = 2;
+    public const STATUS_INACTIVE = 3;
+
+    public const STATUSES = [
+        self::STATUS_NOT_VERIFIED,
+        self::STATUS_ACTIVE,
+        self::STATUS_INACTIVE
+    ];
 
     /**
      * @ORM\Id()
@@ -45,7 +58,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer", options={"default":1})
      */
-    private $isActive = self::IS_ACTIVE;
+    private $status = self::STATUS_NOT_VERIFIED;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user", orphanRemoval=true)
@@ -53,19 +66,9 @@ class User implements UserInterface
     private $posts;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
+     * @ORM\Column(name="rate", type="integer", options={"default":"0"})
      */
-    private $created_at;
-
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $updated_at;
-
-    /**
-     * @ORM\Column(name="rate", type="integer", options={"default":0})
-     */
-    private $rate;
+    private $rate = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user", orphanRemoval=true)
@@ -95,16 +98,13 @@ class User implements UserInterface
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
-        //$this->isActive = true;
     }
 
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles = ['ROLE_ADMIN'];
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
+        $roles[] = self::ROLE_USER;
         return array_unique($roles);
     }
 
@@ -122,16 +122,18 @@ class User implements UserInterface
      */
     public function getUsername()
     {
-        return (string) $this->getEmail();
+        return (string)$this->getEmail();
     }
 
     public function getSalt()
     {
         return null;
     }
+
     public function eraseCredentials()
     {
     }
+
     /** @see \Serializable::serialize() */
     public function serialize()
     {
@@ -159,6 +161,13 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -202,14 +211,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getIsActive(): ?int
+    public function getStatus(): ?int
     {
-        return $this->isActive;
+        return $this->status;
     }
 
-    public function setIsActive(int $isActive): self
+    public function setStatus(int $status): self
     {
-        $this->isActive = $isActive;
+        $this->status = $status;
 
         return $this;
     }
@@ -345,7 +354,7 @@ class User implements UserInterface
 
     public function getAvatarUrl(int $size = null): string
     {
-        $url = 'https://robohash.org/'.$this->getEmail();
+        $url = 'https://robohash.org/' . $this->getEmail();
 
         if ($size) {
             $url .= sprintf('?size=%dx%d', $size, $size);
@@ -357,5 +366,15 @@ class User implements UserInterface
     public function isAdmin(): bool
     {
         return in_array(self::ROLE_ADMIN, $this->getRoles());
+    }
+
+    public function isBlocked(): bool
+    {
+        return $this->getStatus() === self::STATUS_INACTIVE;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->getStatus() === self::STATUS_ACTIVE;
     }
 }

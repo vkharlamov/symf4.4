@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
+use App\Controller\BaseController;
 use App\Dictionary\Constants;
-use App\Entity\Post;
+use App\Entity\User;
+use App\Filters\PostFilter;
 use App\Form\AuthorSearchByEmailType;
-use App\Repository\PostRepository;
-use App\Repository\UserRepository;
-use App\Service\PostService;
-use http\Client\Curl\User;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Admin\UserService;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  *
@@ -22,8 +24,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  *
  *
  */
-class AdminUsersController extends AbstractController
+class AdminUsersController extends BaseController
 {
+    /**
+     * @var UserService
+     */
+    private $service;
+
+    public function __construct(
+        UserService $service
+    ) {
+        $this->service = $service;
+    }
+
     /**
      * @Route("/admin/users/{id}/view", name="admin_users_view", requirements={"id"="\d+"})
      */
@@ -35,15 +48,10 @@ class AdminUsersController extends AbstractController
     /**
      * @Route("/admin/users/{page}", name="admin_users_list", requirements={"page"="\d+"})
      */
-    public function index(UserRepository $repository, PaginatorInterface $paginator, $page = Constants::DEFAULT_PAGE)
+    public function index($page = Constants::DEFAULT_PAGE)
     {
         $formSearch = $this->createForm(AuthorSearchByEmailType::class);
-
-        $pagination = $paginator->paginate(
-            $repository->findBy([], ['id' => 'DESC']),
-            $page,
-            Constants::USER_PER_PAGE
-        );
+        $pagination = $this->service->getUsersList($page);
 
         return $this->render('admin/users/index.html.twig', [
             'pagination' => $pagination,
@@ -52,37 +60,38 @@ class AdminUsersController extends AbstractController
     }
 
     /**
-     * @Route("admin/user/block/{id}", name="admin_user_block", requirements={"id"="\d+"})
-     *
+     * @Route("admin/user/block/{id}/{page}", name="admin_user_block", requirements={"id"="\d+"})
+     * @ParamConverter("user", class="App\Entity\User")
      */
-    public function block(\App\Entity\User $user): RedirectResponse
+    public function block(User $user, int $page = Constants::DEFAULT_PAGE): RedirectResponse
     {
-//        /*if ($user->isBanned()) {
-//            return $this->fallBackWithError('User is banned already');
-//        }
-//        $this->service->banUser($user);
-//        return $this->redirectBackWithSuccess('User is banned');*/
+        if ($user->isBlocked()) {
+            $this->addFlash('error', 'User already has been blocked');
+        } else {
+            $this->service->block($user);
+            $this->addFlash('success', 'User #' . $user->getId() . ' blocked');
+        }
+
+        return $this->redirectToRoute('admin_users_list', [
+            'page' => $page,
+        ]);
     }
 
     /**
-     * @Route("admin/user/activate/{id}", name="admin_user_activate", requirements={"id"="\d+"})
-     *
+     * @Route("admin/user/activate/{id}/{page}", name="admin_user_activate", requirements={"id"="\d+"})
+     * @ParamConverter("user", class="App\Entity\User")
      */
-    public function activate(\App\Entity\User $user): RedirectResponse
+    public function activate(User $user, int $page = Constants::DEFAULT_PAGE): RedirectResponse
     {
-        /*if ($user->isActive()) {
-            return $this->fallBackWithError('User is already active');
+        if ($user->isActive()) {
+            $this->addFlash('error', 'User is already active');
+        } else {
+            $this->service->activate($user);
+            $this->addFlash('success', 'User #' . $user->getId() . ' activated');
         }
-        $this->service->activateUser($user);
-        return $this->redirectBackWithSuccess('User is activated');*/
-    }
 
-    public function search(): JsonResponse
-    {
-        if (is_null($email = $this->request->get('email'))) {
-            return $this->json('');
-        }
-        return $this->json($this->service->search($email));
+        return $this->redirectToRoute('admin_users_list', [
+            'page' => $page,
+        ]);
     }
-
 }
