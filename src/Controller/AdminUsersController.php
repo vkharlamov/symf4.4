@@ -60,8 +60,11 @@ class AdminUsersController extends BaseController
     }
 
     /**
+     * @IsGranted("BLOCK_USER", subject="user")
+     *
      * @Route("admin/user/block/{id}/{page}", name="admin_user_block", requirements={"id"="\d+"})
      * @ParamConverter("user", class="App\Entity\User")
+     *
      */
     public function block(User $user, int $page = Constants::DEFAULT_PAGE): RedirectResponse
     {

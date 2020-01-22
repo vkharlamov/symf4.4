@@ -56,6 +56,6 @@ security:
   # but, definitely allow /login to be accessible anonymously
   - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
   # Admin side
-  #- { path: ^/admin, roles: ROLE_ADMIN }
+  - { path: ^/admin, roles: ROLE_ADMIN }
   # User account
   #- { path: ^/account, roles: ROLE_USER }
