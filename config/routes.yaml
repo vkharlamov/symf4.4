@@ -3,7 +3,7 @@ blog_list:
   controller: App\Controller\BlogController::list
   methods:    GET|HEAD
 
-blog_list_index:
+home:
   path: /index/{page}
   controller: App\Controller\BlogController::list
   methods:    GET|HEAD

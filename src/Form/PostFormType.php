@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Dictionary\Constants;
 use App\Entity\Post;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
@@ -10,7 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\NotBlank;
+
+use Symfony\Component\Validator\Constraints as Assert;
 
 class PostFormType extends AbstractType
 {
@@ -28,8 +30,14 @@ class PostFormType extends AbstractType
                 'title',
                 TextType::class,
                 [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new Assert\Length([
+                            'max' => Constants::POST_MAX_TITLE,
+                            'min' => Constants::POST_MIN_TITLE,
+                        ]),
+                    ],
+                    'attr' => ['class' => 'form-group form-control']
                 ]
             )
 //            ->add('author', UserSelectTextType::class, [
@@ -39,16 +47,14 @@ class PostFormType extends AbstractType
                 'content',
                 TextareaType::class,
                 [
-                    'constraints' => [new NotBlank()],
-                    'attr' => ['class' => 'form-control']
-                ]
-            )
-            ->add(
-                'create',
-                SubmitType::class,
-                [
-                    'attr' => ['class' => 'form-control btn-primary pull-right'],
-                    'label' => 'Create!'
+                    'constraints' => [
+                        new Assert\NotBlank(),
+                        new Assert\Length([
+                            'max' => Constants::POST_MAX_CONTENT,
+                            'min' => Constants::POST_MIN_CONTENT,
+                        ]),
+                    ],
+                    'attr' => ['class' => 'form-group form-control']
                 ]
             );
     }

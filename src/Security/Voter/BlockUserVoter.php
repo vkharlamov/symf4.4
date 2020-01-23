@@ -17,6 +17,9 @@ class BlockUserVoter extends Voter
             && $subject instanceof User;
     }
 
+    /**
+     * @inheritDoc
+     */
     protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
     {
         $user = $token->getUser();
@@ -25,7 +28,7 @@ class BlockUserVoter extends Voter
             return false;
         }
 
-        // ... (check conditions and return true to grant permission) ...
+        /** @var  User $subject */
         switch ($attribute) {
             case 'BLOCK_USER':
                 // For Admin area where user with ROLE_ADMIN

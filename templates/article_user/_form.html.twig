@@ -14,3 +14,7 @@
 
     <button type="submit" class="btn btn-primary">{{ button_text }}</button>
 {{ form_end(articleForm) }}#}
+{{ form_start(articleForm) }}
+  {{ form_widget(articleForm) }}
+  <button type="submit" class="btn btn-md btn-outline-primary">{{ button_text }}</button>
+{{ form_end(articleForm) }}

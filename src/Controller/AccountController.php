@@ -67,6 +67,9 @@ class AccountController extends BaseController
     /**
      * @Route("/account/post/{id}/edit", name="user_post_edit")
      * @ParamConverter("post", class="App\Entity\Post")
+     *
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("EDIT_POST", subject="post")
      */
     public function edit(Post $post, EntityManagerInterface $em)
     {
@@ -102,5 +105,19 @@ class AccountController extends BaseController
         return $this->redirectToRoute('user_post_list');
     }
 
+    /**
+     * @Route("/account/post/{id}/delete", name="user_post_delete")
+     * @IsGranted("ROLE_USER")
+     * @IsGranted("DELETE_POST", subject="post")
+     *
+     * @param Post $post
+     */
+    public function delete(Post $post, PostService $service)
+    {
+        $service->userPublishArticle($post);
+        $this->addFlash('success', 'Success. Article queued for moderation');
+
+        return $this->redirectToRoute('user_post_list');
+    }
 
 }

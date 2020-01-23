@@ -38,7 +38,7 @@ class PostFilterRequest implements IRequestDto
      */
     private $dateTo;
 
-    public $request;
+    //public $request;
 
 //    private $author;
 

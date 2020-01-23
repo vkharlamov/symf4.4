@@ -41,8 +41,10 @@
                         <td>{{ user.email }}</td>
                         <td>{{ user.status|trans({}, 'user_status') }}</td>
                         <td>
-                            {% if user.status == 1 or user.isAdmin %}
+                            {% if user.status == 1 and not user.isAdmin %}
                                 <span class="fa fa-2x fa-address-card-o"></span>
+                            {% elseif user.status == 2 and user.isAdmin %}
+                                <span class="fa fa-2x fa-user-secret"></span>
                             {% elseif user.status == 2 %}
                                 <a href="{{ path('admin_user_block', {id: user.id, page:app.request.get('page')}) }}">Block</a>
                             {% elseif user.status == 3%}

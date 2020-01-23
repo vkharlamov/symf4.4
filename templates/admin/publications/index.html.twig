@@ -18,11 +18,13 @@
                     </select>
                     {% set current_dateFrom = app.request.request.get("dateFrom") %}
                     <div class="input-group datepicker" data-provide="datepicker">
-                        <input type="text" value="{{ current_dateFrom }}" class="form-control datepicker-dropdown" placeholder="Date from" name="dateFrom">
+                        <input type="text" value="{{ current_dateFrom }}" class="form-control datepicker-dropdown"
+                               placeholder="Date from" name="dateFrom">
                     </div>
                     {% set current_dateTo = app.request.request.get("dateTo") %}
                     <div class="input-group datepicker" data-provide="datepicker">
-                        <input type="text" value="{{ current_dateTo }}" class="form-control" placeholder="Date To" name="dateTo">
+                        <input type="text" value="{{ current_dateTo }}" class="form-control" placeholder="Date To"
+                               name="dateTo">
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
@@ -54,13 +56,10 @@
                             {{ publication.user.name }} {{ publication.user.lastName }}
                         </td>
                         <td>
-                            {{ publication.statusName }}
+                            {{ publication.status|trans({}, 'post_status') }}
                         </td>
                         <td style="width: 20%;">
-                            <a href="{{ path('admin_publication_edit', {
-                                id: publication.id
-                            }) }}">
-                                <span class="fa fa-pencil">Edit</span>
+                            <a class="btn btn-sm btn-outline-success" href="{{ path('admin_publication_edit', {id: publication.id}) }}">Edit</a>
                             </a>
                         </td>
                     </tr>

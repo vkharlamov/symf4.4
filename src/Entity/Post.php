@@ -47,7 +47,6 @@ class Post
      */
     private $title;
 
-
     /**
      * @ORM\Column(type="text", nullable=true)
      */
@@ -135,11 +134,6 @@ class Post
     public function getStatus(): int
     {
         return $this->status;
-    }
-
-    public function getStatusName(): string
-    {
-        return self::STATUSES[$this->status];
     }
 
     public function setStatus(int $status): self

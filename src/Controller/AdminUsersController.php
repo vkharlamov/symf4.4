@@ -22,7 +22,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  * Class AdminUsersController
  * @package App\Controller
  *
- *
  */
 class AdminUsersController extends BaseController
 {

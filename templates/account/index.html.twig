@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'content_base.html.twig' %}
 
 {% block title %}Manage Account{% endblock %}
 
@@ -33,62 +33,59 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="col-md-12">
             <p> My publications </p>
-            <div class="row">
-                <div class="row overview">
-                    <div class="col-md-4 user-pad text-center">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th>Created</th>
-                                <th>Title</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for post in pagination %}
-                                {#                            {{ dump(post) }}#}
-                                <tr>
-                                    <td>
-{#                                        {{ post.createdAt|date('Y-m-d') }}#}
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('blog_show', { id: post.id }) }}">
-                                            {{ post.title }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        {{ post.statusName }}
-                                    </td>
-                                    <td>
-                                        {%  if (post.status is constant('\\App\\Entity\\Post::STATUS_DRAFT_KEY')) %}
-                                            <a href="{{ path('user_post_edit', {
-                                                id: post.id
-                                            }) }}">
-                                                <span class="fa fa-pencil"> Edit</span>
-                                            </a>
-                                            <a href="{{ path('user_post_publish', {
-                                                id: post.id
-                                            }) }}">
-                                                <span class="fa fa-reply"> Publish</span>
-                                            </a>
-                                        {%  endif %}
-                                    </td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        No one publication
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        {{ knp_pagination_render(pagination) }}
-                    </div>
-                </div>
-            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for post in pagination %}
+                    <tr>
+                        <td>
+                            {{ post.createdAt|date('Y-m-d') }}
+                        </td>
+                        <td>
+                            <a href="{{ path('blog_show', { id: post.id }) }}">
+                                {{ post.title }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ post.status|trans({}, 'post_status') }}
+                        </td>
+                        <td>
+                            {% set post_status = {
+                                'draft' :  constant('\\App\\Entity\\Post::STATUS_DRAFT_KEY'),
+                                'published' : constant('\\App\\Entity\\Post::STATUS_PUBLISHED_KEY'),
+                                'declined' : constant('\\App\\Entity\\Post::STATUS_DECLINED_KEY'),
+                                'moderation' : constant('\\App\\Entity\\Post::STATUS_MODERATE_KEY')
+                            } %}
+                            {% if (post.status == post_status.draft) %}
+                                <a class="btn btn-sm btn-outline-success" href="{{ path('user_post_edit', {id: post.id}) }}">Edit</a>
+                                <a class="btn btn-sm btn-light" href="{{ path('user_post_publish', {id: post.id}) }}">Publish</a>
+                            {% elseif post.status == post_status.declined or post.status == post_status.published %}
+                                <a class="btn btn-sm btn-outline-danger" href="{{ path('user_post_delete', {id: post.id}) }}">Delete</a>
+                            {% elseif post.status == post_status.moderation %}
+                                -
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">
+                            No one publication
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ knp_pagination_render(pagination) }}
         </div>
     </div>
 {% endblock %}
