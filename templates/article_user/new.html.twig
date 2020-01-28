@@ -2,6 +2,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
 {% endblock %}
 
 {% block stylesheets %}
@@ -10,8 +11,9 @@
 
 {% block content_body %}
     <h1>Create a new Article!</h1>
-
-    {{ include('article_user/_form.html.twig', {
-        button_text: 'Create'
-    }) }}
+    <div class="js-tags-select2entity">
+        {{ include('article_user/_form.html.twig', {
+            button_text: 'Create'
+        }) }}
+    </div>
 {% endblock %}

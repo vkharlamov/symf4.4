@@ -46,7 +46,7 @@ class RequestPostFilterResolver implements ArgumentValueResolverInterface
         // creating new instance of custom request DTO
         $dto = new PostFilterRequest($request);
         $errors = $this->validator->validate($dto);
-//        dd($argument);
+
         if (count($errors) > 0) {
             throw new BadRequestHttpException((string)$errors);
         }

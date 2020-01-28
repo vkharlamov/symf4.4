@@ -90,6 +90,8 @@ class User implements UserInterface
      */
     private $password;
 
+    protected $authorId;
+
     /**
      * User constructor.
      */
@@ -376,5 +378,15 @@ class User implements UserInterface
     public function isActive(): bool
     {
         return $this->getStatus() === self::STATUS_ACTIVE;
+    }
+
+    public function getAuthorId()
+    {
+        return $this->authorId ?: 0;
+    }
+
+    public function setAuthorId($userId)
+    {
+        return $this->authorId = $userId;
     }
 }

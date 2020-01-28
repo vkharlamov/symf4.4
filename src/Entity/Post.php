@@ -72,7 +72,7 @@ class Post
      * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
      * @ORM\JoinTable(name="post_tag")
      */
-    private $postTags;
+    private $tags;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="post")
@@ -89,7 +89,7 @@ class Post
      */
     public function __construct()
     {
-        $this->postTags = new ArrayCollection();
+        $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->votes = new ArrayCollection();
     }
@@ -97,15 +97,25 @@ class Post
     /**
      * @return ArrayCollection
      */
-    public function getPostTags()
+    public function getTags()
     {
-        return $this->postTags;
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): self
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags[] = $tag;
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
     {
         return $this->id;
     }
+
 
     public function getTitle(): ?string
     {

@@ -17,10 +17,15 @@ require('bootstrap');
 
 require('bootstrap-datepicker');
 
+require('select2');
+
 /*
  * algolia autocomplete plugin
  */
 require('autocomplete.js');
+
+require('./post-create.js');
+
 
 /*
  * Custom helpers

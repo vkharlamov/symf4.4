@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\UserRepository;
+use App\Repository\TagRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,14 +17,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostUtilityController extends AbstractController
 {
     /**
-     * @Route("/tags/search", methods="POST", name="tags_search_utility")
+     * @Route("/account/tags/search", methods="GET", name="tags_search_autocomplete")
      */
-    public function getTagsApi(UserRepository $userRepository, Request $request): JsonResponse
+    public function getTagsAutocomplete(TagRepository $tagRepository, Request $request): JsonResponse
     {
-        $users = $userRepository->findAllMatching($request->query->get('query'));
+        $tags = $tagRepository->queryMatch($request->query->get('q'));
+        $data = [];
+        if (!empty($tags)) {
+            $data = array_map(function ($el) {
+                return [
+                    'id' => $el->getId(),
+                    'text' => $el->getName()
+                ];
+            }, $tags);
+        }
 
-        return $this->json([
-            'users' => $users
-        ], 200, [], ['groups' => ['main']]);
+        return $this->json($data, 200, [], ['groups' => ['main']]);
     }
 }

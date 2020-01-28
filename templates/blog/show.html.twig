@@ -9,7 +9,7 @@
             <p>
                 <b>{{ post.title }} #{{ post.id }}</b>
             </p>
-            {% for tag in post.postTags %}
+            {% for tag in post.tags %}
                 <h5><span class="label label-success">{{ tag.name }}</span></h5>
             {% endfor %}
             <div>

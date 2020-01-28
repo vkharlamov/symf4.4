@@ -13,14 +13,16 @@ class AuthorSearchByEmailType extends AbstractType
 {
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        UserRepository $userRepository
+    )
     {
         $this->userRepository = $userRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('author', UserSelectTextType::class, [
+        $builder->add('authorId', UserSelectTextType::class, [
             'attr' => [
                 'placeholder' => "Search...",
                 'class' => 'form-control'

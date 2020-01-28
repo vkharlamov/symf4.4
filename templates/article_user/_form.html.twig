@@ -1,20 +1,25 @@
-{#
-{{ form_start(articleForm) }}
-    {{ form_row(articleForm.title, {
-        label: 'Title'
-    }) }}
+{{ form_start(articleForm, {
+    'method':'POST'
+}) }}
 
-    {{ form_row(articleForm.content, {
-        label: 'Text'
-    }) }}
+{#{{ dump(articleForm) }}#}
+{#<select id="tags" multiple="multiple">#}
+  {#{% for tag in articleForm.vars.value|split(',')|default %}
+    <option value="{{ tag|raw }}" selected="selected">{{ tag|raw }}</option>
+  {% endfor %}#}
+{#</select>#}
 
-    {% if articleForm.publishedAt is defined %}
-        {{ form_row(articleForm.publishedAt) }}
-    {% endif %}
+{{ form_row(articleForm.title, {
+}) }}
 
-    <button type="submit" class="btn btn-primary">{{ button_text }}</button>
-{{ form_end(articleForm) }}#}
-{{ form_start(articleForm) }}
-  {{ form_widget(articleForm) }}
-  <button type="submit" class="btn btn-md btn-outline-primary">{{ button_text }}</button>
+{{ form_row(articleForm.content, {
+}) }}
+
+{{ form_row(articleForm.tags, {
+}) }}
+
+{#<select name="tags[]" id="select2-tags" class="form-control my-3" multiple="multiple" data-autocomplete-url="{{ path('tag_search') }}"></select>#}
+<div class="form-group">
+    <button type="submit" class="btn btn-md btn-outline-primary">{{ button_text }}</button>
+</div>
 {{ form_end(articleForm) }}

@@ -13,17 +13,17 @@
             <h1>Manage Users ({{ pagination.getTotalItemCount }})</h1>
             {{ form_start(formSearch) }}
             <div class="input-group mb-3 pull-right">
-                {{ form_row(formSearch.author, {
+                {{ form_row(formSearch.authorId, {
                     label: false,
                     class: 'form-control'
                 }) }}
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-outline-secondary">
-                        <span class="fa fa-search"></span>
-                    </button>
-                </div>
+{#                <div class="input-group-append">#}
+{#                    <button type="submit" class="btn btn-outline-secondary">#}
+{#                        <span class="fa fa-search"></span>#}
+{#                    </button>#}
+{#                </div>#}
             </div>
-            {{ form_end(formSearch) }}
+{#            {{ form_end(formSearch) }}#}
 
             <table class="table table-striped">
                 <thead>
@@ -55,6 +55,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            {{ form_end(formSearch) }}
+
             <div>
                 {{ knp_pagination_render(pagination) }}
             </div>

@@ -18,7 +18,7 @@ class EmailToUserTransformer implements DataTransformerInterface
         $this->finderCallback = $finderCallback;
     }
 
-    public function transform($value)
+    public function transform($value): string
     {
         if (null === $value) {
             return '';
@@ -44,6 +44,6 @@ class EmailToUserTransformer implements DataTransformerInterface
             throw new TransformationFailedException(sprintf('No user found with email "%s"', $value));
         }
 
-        return $user;
+        return $user->getId();
     }
 }

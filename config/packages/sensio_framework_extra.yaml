@@ -4,4 +4,4 @@ sensio_framework_extra:
 
   request:
     converters: true # note for custom resolver - PostFilterRequest
-    auto_convert: false # note for custom resolver - PostFilterRequest
+    auto_convert: true # note for custom resolver - PostFilterRequest

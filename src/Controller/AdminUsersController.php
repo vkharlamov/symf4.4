@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -47,10 +48,18 @@ class AdminUsersController extends BaseController
     /**
      * @Route("/admin/users/{page}", name="admin_users_list", requirements={"page"="\d+"})
      */
-    public function index($page = Constants::DEFAULT_PAGE)
+    public function index(Request $request, $page = Constants::DEFAULT_PAGE)
     {
-        $formSearch = $this->createForm(AuthorSearchByEmailType::class);
-        $pagination = $this->service->getUsersList($page);
+        $formSearch = $this->createForm(AuthorSearchByEmailType::class, null);
+
+        $formSearch->handleRequest($request);
+
+        $userId = 0;
+        if ($formSearch->isSubmitted()) {
+            $userId = $formSearch->getData()->getAuthorId();
+        }
+
+        $pagination = $this->service->getUsersList($page, $userId);
 
         return $this->render('admin/users/index.html.twig', [
             'pagination' => $pagination,
