@@ -2,24 +2,13 @@
     'method':'POST'
 }) }}
 
-{#{{ dump(articleForm) }}#}
-{#<select id="tags" multiple="multiple">#}
-  {#{% for tag in articleForm.vars.value|split(',')|default %}
-    <option value="{{ tag|raw }}" selected="selected">{{ tag|raw }}</option>
-  {% endfor %}#}
-{#</select>#}
+{{ form_row(articleForm.title) }}
 
-{{ form_row(articleForm.title, {
-}) }}
+{{ form_row(articleForm.content) }}
 
-{{ form_row(articleForm.content, {
-}) }}
+{{ form_row(articleForm.tags) }}
 
-{{ form_row(articleForm.tags, {
-}) }}
-
-{#<select name="tags[]" id="select2-tags" class="form-control my-3" multiple="multiple" data-autocomplete-url="{{ path('tag_search') }}"></select>#}
-<div class="form-group">
-    <button type="submit" class="btn btn-md btn-outline-primary">{{ button_text }}</button>
+<div class="mt-3 mb-4">
+    <button type="submit" class=" btn btn-md btn-outline-primary">{{ button_text }}</button>
 </div>
 {{ form_end(articleForm) }}

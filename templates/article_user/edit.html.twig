@@ -1,11 +1,19 @@
 {% extends 'content_base.html.twig' %}
 
-{% block content_body %}
-    <h1>Edit the Article🚀</h1>
-    {{ include('article_user/_form.html.twig', {button_text: 'Apply'}) }}
-{% endblock %}
-
 {% block javascripts %}
     {{ parent() }}
-{#    {{ encore_entry_script_tags('userhelper') }}#}
+    <script src="{{ asset('bundles/tetranzselect2entity/js/select2entity.js') }}"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content_body %}
+    <h1>Create a new Article!</h1>
+    <div class="js-tags-select2entity">
+        {{ include('article_user/_form.html.twig', {
+            button_text: 'Apply'
+        }) }}
+    </div>
 {% endblock %}

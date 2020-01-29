@@ -42,12 +42,11 @@ class PostFormType extends AbstractType
                 ]
             )
             ->add('tags', Select2EntityType::class, [
-
-                'multiple' => true,
+                'multiple' => true, // Using transformer for several tags @see Tetranz\Select2EntityBundle\Form\DataTransformer\EntitiesToPropertyTransformer
                 'remote_route' => 'tags_search_autocomplete',
 //                'remote_route' => 'ajax_autocomplete', @TODO  try to use bundle service
-                'remote_params' => [], // static route parameters for request->query
-                'class' => '\App\Entity\Tag',
+//                'remote_params' => ['var1'=>'value1'], // static route parameters for request->query
+                'class' => '\App\Entity\Tag', // class to get tags from
                 'primary_key' => 'id',
                 'text_property' => 'name',
                 'minimum_input_length' => 2,
@@ -59,7 +58,7 @@ class PostFormType extends AbstractType
                 'language' => 'en',
                 'placeholder' => 'Type a tags',
                 'allow_add' => [
-                    'enabled' => true,
+                    'enabled' => false, // disable add new tags. only from Tags entity
                     'new_tag_text' => ' (NEW)',
                     'new_tag_prefix' => '__',
                     'tag_separators' => '[",", " "]'
@@ -68,21 +67,6 @@ class PostFormType extends AbstractType
                     'class' => 'form-control select2entity'
                 ]
             ])
-
-
-// Trying describe autocomplete
-/*            ->add('tags', TagType::class, [
-                //'class' => TagType::class, // Try explain with data transform feature but none
-//                'class' => Tag::class,
-                'attr' => [
-                    'placeholder' => "Search...",
-                    'class' => 'form-control js-tags-autocomplete'
-                ],
-                'choice_label' => 'name',
-                'mapped' => true,
-                'expanded' => false,
-                'multiple' => true,
-            ])*/
             ->add(
                 'content',
                 TextareaType::class,

@@ -50,7 +50,6 @@ class AccountController extends BaseController
             /** @var Post $post */
             $post = $form->getData();
             $post->setUser($this->getUser());
-
             $em->persist($post);
             $em->flush();
 

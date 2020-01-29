@@ -69,7 +69,7 @@ class Post
     private $user_id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Tag")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Tag", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="post_tag")
      */
     private $tags;
@@ -106,6 +106,15 @@ class Post
     {
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): self
+    {
+        if ($this->tags->contains($tag)) {
+            $this->tags->removeElement($tag);
         }
 
         return $this;
