@@ -9,6 +9,8 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -30,6 +32,12 @@ class User implements UserInterface
         self::STATUS_INACTIVE
     ];
 
+    public const ATTR_EMAIL = 'email';
+    public const ATTR_ROLES = 'roles';
+    public const ATTR_PASSWORD = 'password';
+    public const ATTR_CONFIRM_TOKEN = 'confirmToken';
+    public const ATTR_FULL_NAME = 'fullName';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -43,7 +51,7 @@ class User implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $last_name;
 
@@ -91,6 +99,11 @@ class User implements UserInterface
     private $password;
 
     protected $authorId;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $confirmToken;
 
     /**
      * User constructor.
@@ -388,5 +401,34 @@ class User implements UserInterface
     public function setAuthorId($userId)
     {
         return $this->authorId = $userId;
+    }
+
+    public function getConfirmToken(): ?string
+    {
+        return $this->confirmToken;
+    }
+
+    public function setConfirmToken(?string $confirmToken): self
+    {
+        $this->confirmToken = $confirmToken;
+
+        return $this;
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata)
+    {
+        $metadata->addConstraint(new UniqueEntity([
+            'fields' => 'email',
+            'errorPath' => 'email',
+            'message' => 'This email is already in use.',
+        ]));
+
+        /** To use custom rules for email field remove @Assert\Email rule from annotation
+         * of class property
+         *
+         * $metadata->addPropertyConstraint('email', new Assert\Email(
+         *  ['message' => 'Custom note',]
+         * ));
+         */
     }
 }

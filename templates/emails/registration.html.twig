@@ -1,0 +1,6 @@
+<p>Hello {{ user.name }}! </p>
+<p>To complete registration please confirm
+    <a href="{{ url('app_confirm_email', {'token': user.confirmToken}) }}">link</a>.
+</p>
+<p>To login, go to <a href="{{ url('app_login') }}">login page</a>.</p>
+<p>Thanks!</p>

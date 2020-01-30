@@ -26,12 +26,9 @@ require('autocomplete.js');
 
 require('./post-create.js');
 
-
 /*
  * Custom helpers
  */
 require('./admin-filters-dashboard');
 
 require('./algolia-autocomplete');
-
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

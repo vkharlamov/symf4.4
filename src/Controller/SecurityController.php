@@ -2,15 +2,17 @@
 
 namespace App\Controller;
 
+use App\DTO\UserRegistration;
 use App\Entity\User;
+use App\Form\UserRegistrationType;
 use App\Security\LoginFormAuthenticator;
+use App\Service\SecurityService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
     /**
      * @Route("/login", name="app_login")
@@ -40,8 +42,29 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request)
-    {
-        // TODO - use Symfony forms & validation
+    public function register(
+        SecurityService $securityService,
+        UserRegistration $userRegister
+    ): Response {
+        $form = $this->createForm(UserRegistrationType::class);
+        $form->handleRequest($this->request);
+
+        if ($form->isSubmitted() && $form->isValid() && $form[UserRegistrationType::AGREE_TERMS]->getData()) {
+            $userRegister->set(
+                $form[UserRegistrationType::EMAIL]->getData(),
+                $form[UserRegistrationType::FULL_NAME]->getData(),
+                $form[UserRegistrationType::PLAIN_PASSWORD]->getData()
+            );
+            /** Create user and send confirmation email */
+            $securityService->register($userRegister);
+
+            $this->addFlash('success', 'Congrats. To complete registration check your email');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('security/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 }
