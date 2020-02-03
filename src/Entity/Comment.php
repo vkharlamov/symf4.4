@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment
 {
+    public const STATUS_HIDDEN = 0;
+    public const STATUS_VISIBLE = 1;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -53,7 +56,7 @@ class Comment
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $post;

@@ -1,10 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}List of Posts{% endblock %}
+{% block title %}Read Post{% endblock %}
 
 {% block body %}
     <div class="row">
-        <h1 xmlns="http://www.w3.org/1999/html">List of Posts</h1>
         <div>
             <p>
                 <b>{{ post.title }} #{{ post.id }}</b>
@@ -31,4 +30,16 @@
             {% endfor %}
         </div>
     </div>
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+        {{ form_start(commentForm, {
+            'method': 'POST'}) }}
+
+        {{ form_row(commentForm.comment) }}
+
+        <div class="mt-3 mb-4">
+            <button type="submit" class=" btn btn-md btn-outline-primary">Comment</button>
+        </div>
+        {{ form_end(commentForm) }}
+    {% endif %}
 {% endblock %}

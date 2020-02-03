@@ -11,9 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Table;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @Table(name="user",uniqueConstraints={@UniqueConstraint(name="email_unique", columns={"email"})})
+ *
  */
 class User implements UserInterface
 {

@@ -3,17 +3,20 @@
 namespace App\Controller;
 
 use App\Dictionary\Constants;
+use App\DTO\Comment as CommnetDto;
 use App\Entity\Post;
+use App\Form\CommentFormType;
 use App\Service\PostService;
+use App\Service\CommentService;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Repository\PostRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BlogController
  * @package App\Controller
  */
-class BlogController extends AbstractController
+class BlogController extends BaseController
 {
     public function list(PostRepository $repository, PaginatorInterface $paginator, $page = Constants::DEFAULT_PAGE)
     {
@@ -29,16 +32,35 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @param Post $post by id from request
+     * @param Post $post
      * @param PostService $postService
+     * @param CommnetDto $commentDto
+     * @param CommentService $commentService
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
-    public function show(Post $post, PostService $postService)
+    public function show(Post $post, PostService $postService, CommnetDto $commentDto, CommentService $commentService)
     {
+        $commentForm = $this->createForm(CommentFormType::class, $commentDto);
+        $commentForm->handleRequest($this->request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            /** comment property has been set already */
+            $commentDto->setAuthor($this->getUser());
+            $commentDto->setPost($post);
+            $commentService->store($commentDto);
+
+            $this->addFlash('success', 'Success. Comment added.');
+
+            return $this->redirectToRoute('blog_show', [
+                'id' => $post->getId(),
+            ]);
+        }
+
         return $this->render('blog/show.html.twig', [
             'post' => $post,
             'countVotes' => $postService->countVotes($post),
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 }
