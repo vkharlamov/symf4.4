@@ -1,27 +1,40 @@
 $(document).ready(function () {
     let VoteHelper = {
-        param: {
-            votePane: $(".js-vote-pane"),
-            voteForm: $("#vote_post_form_vote")
-        },
+        votePane: $(".js-vote-pane"),
+        formVote: $("#vote_form_id"),
+        formVoteField: $("#vote_post_form_vote"),
+        currCount: 0,
+
         bindHandler: function () {
             let _self = this;
-            this.param.votePane.find("a").each(function (idx, el) {
-                console.log(idx, el, _self);
-                $(el).on('click', () => {
+            this.votePane.find("a.vote").each(function (idx, el) {
+                $(el).one('click', function (e) {
                     _self.setVoteFormValue($(el).data('vote'));
-                    _self.voteHandler();
+                    _self.voteHandler(el);
                 })
             });
         },
-        setVoteFormValue: function(v) {
-            this.param.voteForm.val(v);
+
+        disableClick: function (key) {
+            key ?
+                this.votePane.find("a.vote").each(function (idx, el) {
+                    $(el).off('click');
+                })
+                : this.bindHandler();
         },
 
-    voteHandler: function (vote) {
-        let _self = this;
-        $("#vote_form_id").submit(function (e) {
+        setVoteFormValue: function (v) {
+            this.formVoteField.val(v);
+        }
+        ,
+
+        bindFormHandler: function () {
+            let _self = this;
+
+            this.formVote.on('submit', function (e) {
                 e.preventDefault();
+                _self.disableClick(true);
+
                 let form = $(e.currentTarget);
                 let url = form.attr('action');
 
@@ -34,14 +47,28 @@ $(document).ready(function () {
                 }).fail(function (data) {
                     console.log('An error occurred.', data);
                 });
-            }).trigger('submit'); // we have to trigger to fire
+                _self.disableClick(false);
+            });
         },
-        setCounter: function (v) {
 
+        voteHandler: function (vote) {
+            this.formVote.trigger('submit');
         },
+
+        setCounter: function (data) {
+            let className = data.vote ? 'badge badge-success' : 'badge badge-danger';
+            let counterFiled = this.votePane.find('span.badge').removeClass();
+            let count = parseInt(data.vote)
+                ? this.currCount + 1
+                : this.currCount - 1;
+            counterFiled.addClass(className)
+                .text(count);
+        },
+
         init: function () {
-            console.log('init', this);
             this.bindHandler();
+            this.bindFormHandler();
+            this.currCount = parseInt(this.votePane.find('span.badge').text());
         }
     };
     VoteHelper.init();
