@@ -26,6 +26,9 @@ require('autocomplete.js');
 
 require('./post-create.js');
 
+require('./vote_post.js');
+
+
 /*
  * Custom helpers
  */

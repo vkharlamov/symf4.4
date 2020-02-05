@@ -13,7 +13,7 @@ class PostVoter extends Voter
 {
     protected function supports($attribute, $subject): bool
     {
-        return in_array($attribute, ['EDIT_POST', 'DELETE_POST'])
+        return in_array($attribute, ['EDIT_POST', 'DELETE_POST', 'RATE'])
             && $subject instanceof Post;
     }
 
@@ -41,6 +41,14 @@ class PostVoter extends Voter
                 ) {
                     return true;
                 }
+
+                break;
+
+            case 'RATE':
+                if ($subject->getUserId() !== $user->getId()) {
+                    return true;
+                }
+
                 break;
         }
 

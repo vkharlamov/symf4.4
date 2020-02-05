@@ -15,11 +15,32 @@
                 {{ post.content }}
             </div>
             <div>Author {{ post.user.name }} {{ post.user.lastName }}</div>
-            <p>Raiting :
-                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                {{ countVotes }}
-                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
-            </p>
+            <div class="container">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    {{ form_start(voteForm) }}
+                    {{ form_widget(voteForm) }}
+                {{ form_end(voteForm) }}
+                {#<form action="{{ url('user_vote_post', { id: post.id }) }}" method="post">
+                    <input type="hidden" name="_vote_token" value="{{ csrf_token('vote_post_token_string') }}"/>
+                    <input type="hidden" name="vote" value=""/>
+                </form>#}
+
+                    <div class="js-vote-pane" data-rate="{{ countVotes }}" >
+                        <a class="vote" data-vote="1">
+                            <i class="fa fa-thumbs-o-up"></i>
+                        </a>
+                        <span class="badge badge-warning">{{ countVotes }}</span>
+                        <a class="vote" data-vote="0">
+                            <i class="fa fa-thumbs-o-down"></i>
+                        </a>
+                    </div>
+
+                {% else %}
+                    <div class="post-show-footer-rating">
+                        <span>Rating: <span class="badge badge-warning">{{ countVotes }}</span></span>
+                    </div>
+                {% endif %}
+            </div>
             <hr>
             <h3>Comments</h3>
             {% for comment in post.comments %}

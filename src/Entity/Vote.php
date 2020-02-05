@@ -21,6 +21,14 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Vote
 {
+    public const VOTE_UNLIKE_INT = 0;
+    public const VOTE_LIKE_INT = 1;
+
+    public const VOTE = [
+        '0' => self::VOTE_UNLIKE_INT,
+        '1' => self::VOTE_LIKE_INT
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -60,6 +68,38 @@ class Vote
      */
     private $user;
 
+    /**
+     * @return mixed
+     */
+    public function getPost()
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param mixed $post
+     */
+    public function setPost($post): void
+    {
+        $this->post = $post;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -70,7 +110,7 @@ class Vote
         return $this->vote;
     }
 
-    public function setVote(\DateTimeInterface $vote): self
+    public function setVote(int $vote): self
     {
         $this->vote = $vote;
 

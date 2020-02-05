@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Dictionary\Constants;
 use App\DTO\Comment as CommnetDto;
+use App\DTO\PostVote as PostVoteDto;
 use App\Entity\Post;
 use App\Form\CommentFormType;
+use App\Form\VotePostFormType;
 use App\Service\PostService;
 use App\Service\CommentService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -39,8 +41,13 @@ class BlogController extends BaseController
      *
      * @return Response
      */
-    public function show(Post $post, PostService $postService, CommnetDto $commentDto, CommentService $commentService)
-    {
+    public function show(
+        Post $post,
+        PostService $postService,
+        CommnetDto $commentDto,
+        CommentService $commentService
+//        PostVoteDto $postVoteDto
+    ) {
         $commentForm = $this->createForm(CommentFormType::class, $commentDto);
         $commentForm->handleRequest($this->request);
 
@@ -61,6 +68,10 @@ class BlogController extends BaseController
             'post' => $post,
             'countVotes' => $postService->countVotes($post),
             'commentForm' => $commentForm->createView(),
+            'voteForm' => $this->createForm(VotePostFormType::class, null, [
+                'action' => $this->generateUrl('user_vote_post', ['id'=>$post->getId()], 0),
+                ])->createView(),
+
         ]);
     }
 }
