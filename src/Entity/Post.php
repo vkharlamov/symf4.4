@@ -258,6 +258,22 @@ class Post
      */
     public static function getStatusByName($name): int
     {
-        return array_flip(self::STATUSES)[$name] ?: 0 ;
+        return array_flip(self::STATUSES)[$name] ?: 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function countVotes(): int
+    {
+        $count = 0;
+        if (!$this->votes->isEmpty()) {
+            /** @var Vote $vote */
+            foreach ($this->votes as $vote) {
+                $count += $vote->getVote();
+            }
+        }
+
+        return $count;
     }
 }
