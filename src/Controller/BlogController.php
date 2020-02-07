@@ -46,7 +46,6 @@ class BlogController extends BaseController
         PostService $postService,
         CommnetDto $commentDto,
         CommentService $commentService
-//        PostVoteDto $postVoteDto
     ) {
         $commentForm = $this->createForm(CommentFormType::class, $commentDto);
         $commentForm->handleRequest($this->request);
@@ -64,8 +63,15 @@ class BlogController extends BaseController
             ]);
         }
 
+        $userVote = null;
+        if ($user = $this->getUser()) {
+            $userVote = $postService->getPostUsersVote($post, $user);
+        }
+        dump($userVote);
+
         return $this->render('blog/show.html.twig', [
             'post' => $post,
+            'userVote' => $userVote,
             'countVotes' => $postService->countVotes($post),
             'commentForm' => $commentForm->createView(),
             'voteForm' => $this->createForm(VotePostFormType::class, null, [

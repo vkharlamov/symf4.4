@@ -7,7 +7,7 @@ $(document).ready(function () {
             formVoteField: $("#vote_post_form_vote"),
             currCount: 0,
 
-            bindHandler: function () {
+            bindClickHandler: function () {
                 let _self = this;
                 this.votePane.find("a.vote").each(function (idx, el) {
                     $(el).on('click', function (e) {
@@ -69,9 +69,25 @@ $(document).ready(function () {
                     .text(count);
             },
 
+            setUserVote: function () {
+                let userVote = this.votePane.data('uservote');
+
+                if (userVote || userVote.length) {
+                    this.votePane
+                        .find('span.badge')
+                        .removeClass('badge-warning')
+                        .toggleClass(function () {
+                            return userVote
+                                ? 'badge-success'
+                                : 'badge-danger'
+                        });
+                }
+            },
+
             init: function () {
-                this.bindHandler();
+                this.bindClickHandler();
                 this.bindFormHandler();
+                this.setUserVote();
                 this.currCount = parseInt(this.votePane.find('span.badge').text());
             }
         };

@@ -8,7 +8,9 @@ use App\Dictionary\Constants;
 use App\DTO\IRequestDto;
 use App\DTO\PostFilterRequest;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Repository\PostRepository;
+use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,6 +26,10 @@ class PostService
     protected $em;
 
     private $paginator;
+    /**
+     * @var VoteRepository
+     */
+    private $voteRepository;
 
     /**
      * PostService constructor.
@@ -35,11 +41,13 @@ class PostService
     public function __construct(
         PostRepository $postRepository,
         EntityManagerInterface $em,
-        PaginatorInterface $paginator
+        PaginatorInterface $paginator,
+        VoteRepository $voteRepository
     ) {
         $this->postRepository = $postRepository;
         $this->em = $em;
         $this->paginator = $paginator;
+        $this->voteRepository = $voteRepository;
     }
 
     /**
@@ -92,5 +100,24 @@ class PostService
             $page,
             Constants::POST_PER_PAGE
         );
+    }
+
+    /**
+     * @param Post $post
+     * @param User $user
+     *
+     * @return int|null
+     */
+    public function getPostUsersVote(Post $post, User $user): ?int
+    {
+        $postVoteOfUser = $this->voteRepository
+            ->findOneBy([
+                'user' => $user,
+                'post' => $post
+            ]);
+
+        return $postVoteOfUser
+            ? $postVoteOfUser->getVote()
+            : null;
     }
 }
