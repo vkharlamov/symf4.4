@@ -71,7 +71,6 @@ class BlogController extends BaseController
             'voteForm' => $this->createForm(VotePostFormType::class, null, [
                 'action' => $this->generateUrl('user_vote_post', ['id'=>$post->getId()], 0),
                 ])->createView(),
-
         ]);
     }
 }

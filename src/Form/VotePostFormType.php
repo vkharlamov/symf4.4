@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Validator\Constraints as CustomAssert;
 
 class VotePostFormType extends AbstractType
 {
@@ -22,16 +23,10 @@ class VotePostFormType extends AbstractType
                 'vote',
                 HiddenType::class,
                 [
-//                    'empty_data' => '',
-//                    'mapped' => false,
-                    /*'constraints' => [
+                    'constraints' => [
                         new Assert\NotBlank(),
-                        new Assert\Length([
-                            'max' => Constants::COMMENT_MAX_LENGTH,
-                            'min' => Constants::COMMENT_MIN_LENGTH,
-                        ]),
-                    ]*/
-                    'attr' => ['type' => 'hidden']
+                        new CustomAssert\VoteValue()
+                    ],
                 ]
             );
     }
@@ -43,7 +38,10 @@ class VotePostFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PostVoteDto::class,
-            'attr' => ['id'=> 'vote_form_id']
+            'attr' => [
+                'id'=> 'vote_form_id',
+                'type' => 'hidden'
+            ],
         ]);
     }
 }

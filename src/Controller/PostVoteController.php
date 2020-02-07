@@ -29,6 +29,7 @@ class PostVoteController extends BaseController
         try {
             $form = $this->createForm(VotePostFormType::class, $postVoteDto);
             $form->handleRequest($this->request);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 /** vote property has been set already */
                 $postVoteDto->setAuthor($this->getUser());
@@ -38,7 +39,7 @@ class PostVoteController extends BaseController
                 return new JsonResponse(['vote' => $postVoteDto->getVote()], Response::HTTP_CREATED);
 
             } else {
-                throw new ApiVoteException(Response::HTTP_UNPROCESSABLE_ENTITY);
+                throw new ApiVoteException(Response::HTTP_UNPROCESSABLE_ENTITY, (string) $form->getErrors(true, false));
             }
         } catch (ApiVoteException $exception) {
             return new JsonResponse([], Response::HTTP_UNPROCESSABLE_ENTITY);
