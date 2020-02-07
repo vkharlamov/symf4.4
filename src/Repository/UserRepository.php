@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use http\Params;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
 /**
@@ -44,6 +45,23 @@ class UserRepository extends ServiceEntityRepository implements UserLoaderInterf
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @param int $limit
+     *
+     * @return array
+     */
+    public function getRandomConfirmedUsers(int $limit = 0): array
+    {
+        $query = $this->createQueryBuilder('u')
+            ->andWhere('u.confirmToken is NULL');
+
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
     // /**

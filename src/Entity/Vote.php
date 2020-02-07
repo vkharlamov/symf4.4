@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Entity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
@@ -21,6 +22,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Vote
 {
+    use TimestampableEntity;
+
     public const VOTE_UNLIKE_INT = 0;
     public const VOTE_LIKE_INT = 1;
 
@@ -45,16 +48,6 @@ class Vote
      * @ORM\Column(type="integer")
      */
     private $vote;
-
-    /**
-     * @ORM\Column(name="created_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $created_at;
-
-    /**
-     * @ORM\Column(name="updated_at", type="datetime", options={"default": "CURRENT_TIMESTAMP"})
-     */
-    private $updated_at;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="votes")

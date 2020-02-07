@@ -138,4 +138,26 @@ class PostRepository extends ServiceEntityRepository
             ->orderBy('p.createdAt', 'ASC')
             ->getQuery();
     }
+
+    /**
+     * @param int $limit
+     * @param int $postStatus
+     *
+     * @return array
+     */
+    public function getRandomPosts(int $limit = 0, int $postStatus = 0): array
+    {
+        $query = $this->createQueryBuilder($alias = 'post')
+            ->innerJoin('post.user', 'post_user')
+            ->addSelect('post_user');
+
+        if ($postStatus) {
+            $query->andWhere('post.status = ' . $postStatus);
+        }
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+
+        return $query->getQuery()->getResult();
+    }
 }
