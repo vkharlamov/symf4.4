@@ -56,7 +56,7 @@ class SecurityService
         $user = new User();
         $user->setEmail($userRegister->getEmail());
         $user->setName($userRegister->getName());
-        $user->setConfirmToken($this->tokenGenerator->getRandomSecureToken());
+        $user->setConfirmToken($this->tokenGenerator->getRegistrationToken());
         $user->setPassword($this->passwordEncoder->encodePassword($user, $userRegister->getPlainPassword()));
         $user->setStatus(User::STATUS_NOT_VERIFIED);
 
