@@ -1,55 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}
-            {# 'app' must match the first argument to addEntry() in webpack.config.js #}
-            {{ encore_entry_link_tags('app') }}
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
+        {{ encore_entry_link_tags('app') }}
 
-            <!-- Renders a link tag (if your module requires any CSS)
-                 <link rel="stylesheet" href="/build/app.css"> -->
-        {% endblock %}
-    </head>
-    <body>
-    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <!-- Renders a link tag (if your module requires any CSS)
+             <link rel="stylesheet" href="/build/app.css"> -->
+    {% endblock %}
+</head>
+<body>
+{#<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">#}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{ path('home') }}">
         <h5 class="my-0 mr-md-auto font-weight-normal">Simple Blog</h5>
-        <nav class="my-1 mr-md-5">
-            <a class="p-2 text-dark" href="{{ path('admin_publications_list', { }) }}">Publications</a>
-            <a class="p-2 text-dark" href="{{ path('admin_users_list') }}">Users</a>
-        </nav>
-        <nav class="my-2 mr-md-0 mr-md-3">
-            {#    {% if is_granted('IS_AUTHENTICATsED_FULLY') %}#}
-            <a class="btn btn-outline-dark" href="{{ path('app_logout') }}">Logout</a>
-            {#    {% else %}#}
-            <a class="btn btn-outline-primary" href="{{ path('app_register') }}">Sign up</a>
-            <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Login</a>
-            {#    {% endif %}#}
-        </nav>
-        {% if is_granted('ROLE_USER') %}
-            <a class="nav-link" href="http://example.com" id="navbarDropdownMenuLink"
-               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(100) }}">
-            </a>
+    </a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a class="nav-link" href="{{ path('home') }}">Home</a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ path('admin_publications_list') }}">Publications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{{ path('admin_users_list') }}">Users</a>
+            </li>
+            {% endif %}
+        </ul>
+        <ul class="nav justify-content-end">
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('user_post_list') }}">Profile</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary mr-sm-2" href="{{ path('app_register') }}">Sign up</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-dark" href="{{ path('app_login') }}">Login</a>
+                </li>
+            {% endif %}
+        </ul>
+
+        <!-- right side menu  -->
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <ul class="navbar-nav mr-auto">
+            </ul>
+            <span class="navbar-text">
+                {{ app.user.email }}
+            </span>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="navbarNav" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <img class="nav-profile-img rounded-circle" src="{{ app.user.avatarUrl(100) }}">
+                    </a>
+                </li>
+            </ul>
+            <form class="form-inline">
+                <a class="btn btn-outline-dark mr-sm-2" href="{{ path('app_logout') }}">Logout</a>
+            </form>
         {% endif %}
     </div>
-    <div class="container">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% block body %}{% endblock %}
-    </div>
-    {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
-        <script>
-            $('.dropdown-toggle').dropdown();
-        </script>
-    {% endblock %}
-    </body>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</nav>
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% block body %}{% endblock %}
+</div>
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+    <script>
+        $('.dropdown-toggle').dropdown();
+    </script>
+{% endblock %}
+</body>
 </html>

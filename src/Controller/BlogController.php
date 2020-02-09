@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Dictionary\Constants;
 use App\DTO\Comment as CommnetDto;
-use App\DTO\PostVote as PostVoteDto;
 use App\Entity\Post;
 use App\Form\CommentFormType;
 use App\Form\VotePostFormType;
@@ -67,16 +66,19 @@ class BlogController extends BaseController
         if ($user = $this->getUser()) {
             $userVote = $postService->getPostUsersVote($post, $user);
         }
-        dump($userVote);
 
         return $this->render('blog/show.html.twig', [
             'post' => $post,
             'userVote' => $userVote,
             'countVotes' => $postService->countVotes($post),
             'commentForm' => $commentForm->createView(),
-            'voteForm' => $this->createForm(VotePostFormType::class, null, [
-                'action' => $this->generateUrl('user_vote_post', ['id'=>$post->getId()], 0),
-                ])->createView(),
+            'voteForm' => $this->createForm(
+                VotePostFormType::class,
+                null,
+                [
+                    'action' => $this->generateUrl('user_vote_post', ['id' => $post->getId()], 0),
+                ]
+            )->createView(),
         ]);
     }
 }
