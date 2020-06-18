@@ -14,6 +14,7 @@ use App\Repository\VoteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class PostService
@@ -30,6 +31,10 @@ class PostService
      * @var VoteRepository
      */
     private $voteRepository;
+    /**
+     * @var Security
+     */
+    private $security;
 
     /**
      * PostService constructor.
@@ -42,12 +47,14 @@ class PostService
         PostRepository $postRepository,
         EntityManagerInterface $em,
         PaginatorInterface $paginator,
-        VoteRepository $voteRepository
+        VoteRepository $voteRepository,
+        Security $security
     ) {
         $this->postRepository = $postRepository;
         $this->em = $em;
         $this->paginator = $paginator;
         $this->voteRepository = $voteRepository;
+        $this->security = $security;
     }
 
     /**
@@ -78,6 +85,9 @@ class PostService
         }
     }
 
+    /**
+     * @param Post $post
+     */
     public function update(Post $post): void
     {
         $this->em->persist($post);
@@ -92,7 +102,6 @@ class PostService
      */
     public function getFilteredPosts(IRequestDto $postFilterRequest, int $page = Constants::DEFAULT_PAGE): PaginationInterface
     {
-
         $query = $this->postRepository->getFilteredPostList($postFilterRequest);
 
         return $this->paginator->paginate(
@@ -119,5 +128,18 @@ class PostService
         return $postVoteOfUser
             ? $postVoteOfUser->getVote()
             : null;
+    }
+
+    /**
+     * Create post. Empty tags allowed
+     *
+     * @param Post $post
+     */
+    public function create(Post $post): void
+    {
+        $post->setUser($this->security->getUser());
+
+        $this->em->persist($post);
+        $this->em->flush();
     }
 }

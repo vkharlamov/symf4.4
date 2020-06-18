@@ -44,7 +44,8 @@ class UserService
 
     /**
      * @param int $page
-     * @param int $id User id
+     * @param int $userId
+     *
      * @return PaginationInterface
      */
     public function getUsersList(int $page, int $userId = 0): PaginationInterface
@@ -52,12 +53,10 @@ class UserService
         // Dummy approach with User' id to test param transformer feature only
         // @see \App\Form\DataTransformer\EmailToUserTransformer for details
 
+        $userId = !$userId ? [] : ['id' => $userId];
+
         return $this->paginator->paginate(
-            $this->userRepository->findBy(
-                !$userId
-                        ? []
-                        : ['id' => $userId],
-                ['id' => 'DESC']),
+            $this->userRepository->findBy($userId, ['id' => 'DESC']),
             $userId ? Constants::DEFAULT_PAGE : $page,
             Constants::USER_PER_PAGE
         );

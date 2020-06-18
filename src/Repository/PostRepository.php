@@ -12,7 +12,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,8 +36,11 @@ class PostRepository extends ServiceEntityRepository
      */
     private $filter;
 
-    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em, PostFilter $filter)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        EntityManagerInterface $em,
+        PostFilter $filter
+    ) {
         parent::__construct($registry, Post::class);
         $this->em = $em;
         $this->filter = $filter;
@@ -47,7 +49,7 @@ class PostRepository extends ServiceEntityRepository
     /**
      * @param int $userId
      *
-     * @return \Doctrine\ORM\Query
+     * @return Query
      */
     public function findUserPostOrderedByNewest(int $userId): Query
     {
@@ -56,8 +58,6 @@ class PostRepository extends ServiceEntityRepository
         return $query
             ->innerJoin('p.user', 'u')
             ->addSelect('u')
-            //   Join::WITH,
-            //    $query->expr()->eq('p.user_id', 'u.id')
             ->andWhere('p.user_id = :user_id')
             ->setParameter('user_id', $userId)
             ->orderBy('p.createdAt', 'ASC')
@@ -65,6 +65,9 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
+    /**
+     * @return Criteria
+     */
     public static function createNonDeletedCriteria(): Criteria
     {
         return Criteria::create()
@@ -72,6 +75,9 @@ class PostRepository extends ServiceEntityRepository
             ->orderBy(['createdAt' => 'DESC']);
     }
 
+    /**
+     * @return Query
+     */
     public function getPostListOrderedByNewest(): Query
     {
         return $this->getOrCreateQueryBuilder()
@@ -79,13 +85,11 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    private function addIsPublishedQueryBuilder(QueryBuilder $qb = null): QueryBuilder
-    {
-        return $this->getOrCreateQueryBuilder($qb);
-//            ->andWhere('p.status = :post_status')
-//            ->setParameter('post_status', Post::STATUS_PUBLISHED_KEY);
-    }
-
+    /**
+     * @param QueryBuilder|null $qb
+     *
+     * @return QueryBuilder
+     */
     private function getOrCreateQueryBuilder(QueryBuilder $qb = null): QueryBuilder
     {
         return $qb ?: $this->createQueryBuilder('p');

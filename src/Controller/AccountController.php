@@ -8,20 +8,31 @@ use App\Form\ArticleFormStatus;
 use App\Form\PostFormType;
 use App\Repository\PostRepository;
 use App\Service\PostService;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * @IsGranted("ROLE_USER")
  */
 class AccountController extends BaseController
 {
+
+    /**
+     * @var PostService
+     */
+    private $postService;
+
+    public function __construct(
+        PostService $postService,
+        RequestStack $requestStack
+    ) {
+        parent::__construct($requestStack);
+        $this->postService = $postService;
+    }
     /**
      * @Route("/account", name="user_post_list")
      */
@@ -39,19 +50,20 @@ class AccountController extends BaseController
     }
 
     /**
+     * Creates new post no using DTO, with form feature only
+     *
      * @Route("/account/post/new", name="user_post_new")
      */
-    public function new(EntityManagerInterface $em)
+    public function new()
     {
         $form = $this->createForm(PostFormType::class);
-
         $form->handleRequest($this->request);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var Post $post */
             $post = $form->getData();
-            $post->setUser($this->getUser());
-            $em->persist($post);
-            $em->flush();
+            $this->postService->create($post);
 
             $this->addFlash('success', 'Post Created.');
 
@@ -70,14 +82,14 @@ class AccountController extends BaseController
      * @IsGranted("ROLE_USER")
      * @IsGranted("EDIT_POST", subject="post")
      */
-    public function edit(Post $post, EntityManagerInterface $em)
+    public function edit(Post $post)
     {
         $form = $this->createForm(PostFormType::class, $post);
         $form->handleRequest($this->request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em->persist($post);
-            $em->flush();
+
+            $this->postService->update($post);
 
             $this->addFlash('success', 'Success. Article Updated!');
 
@@ -118,5 +130,4 @@ class AccountController extends BaseController
 
         return $this->redirectToRoute('user_post_list');
     }
-
 }

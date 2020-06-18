@@ -10,6 +10,7 @@ use Psr\Log\LoggerInterface;
  */
 class TokenGenerator
 {
+    private const MIN_LENGTH = 30;
     /**
      * @var LoggerInterface
      */
@@ -21,11 +22,12 @@ class TokenGenerator
     }
 
     /**
+     * @param int $len
+     *
      * @return string
      *
-     * @throws \Exception
      */
-    public function getRegistrationToken(int $len = 30): string
+    public function getRegistrationToken(int $len = self::MIN_LENGTH): string
     {
         $secret = '';
 

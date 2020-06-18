@@ -31,6 +31,7 @@ class PostFormType extends AbstractType
                 'title',
                 TextType::class,
                 [
+                    'empty_data' => '',
                     'constraints' => [
                         new Assert\NotBlank(),
                         new Assert\Length([
@@ -71,6 +72,7 @@ class PostFormType extends AbstractType
                 'content',
                 TextareaType::class,
                 [
+                    'empty_data' => '',
                     'constraints' => [
                         new Assert\NotBlank(),
                         new Assert\Length([
